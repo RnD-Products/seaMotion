@@ -1,0 +1,108 @@
+{
+  "animation": null,
+  "canvas": {
+    "mode": "finite",
+    "size": {
+      "height": 1200,
+      "unit": "px",
+      "width": 1600
+    }
+  },
+  "exportedAt": "2026-10-12T10:58:02.595Z",
+  "format": "mo-app-project",
+  "layers": [],
+  "name": "Project 1",
+  "params": {},
+  "timeline": {
+    "durationSeconds": 8
+  },
+  "values": {
+    "export.includeBackground": true,
+    "appearance.background": "#DFDFDF",
+    "canvas.workspaceBackground": "dots",
+    "canvas.aspectRatio": {
+      "height": 3,
+      "mode": "preset",
+      "value": "4:3",
+      "width": 4
+    },
+    "canvas.size.width": 1600,
+    "canvas.size.height": 1200,
+    "canvas.renderScale": 1,
+    "inspector.tab": "project",
+    "app.timelineDefaulted": true,
+    "motion.type": "animation",
+    "landing.plan": {},
+    "landing.sections": {},
+    "landing.mockup": "none",
+    "landing.fill": "#DFDFDF",
+    "landing.image": {
+      "items": [],
+      "selected": 0
+    },
+    "versions.items": {
+      "activeId": null,
+      "items": []
+    },
+    "interactions.enabled": false,
+    "interactions.list": {
+      "items": [],
+      "seeded": false,
+      "selected": null
+    },
+    "modifier.layer": {},
+    "modifier.layerActive": false,
+    "modifier.layerFiles": false,
+    "modifier.layerImages": {},
+    "animation.texts": {},
+    "modifier.layerHasText": false,
+    "bg.mode": "fill",
+    "bg.mockup": {
+      "items": [],
+      "selected": 0
+    },
+    "sticky.ratios": [
+      "original",
+      "1:1",
+      "4:3",
+      "3:2",
+      "16:9",
+      "3:4",
+      "2:3",
+      "9:16",
+      "custom"
+    ],
+    "sticky.top.type": "off",
+    "sticky.top.image": {
+      "items": [],
+      "selected": 0
+    },
+    "sticky.top.imageSize": 100,
+    "sticky.top.text": "",
+    "sticky.top.textSize": 36,
+    "sticky.top.textColor": "#111111",
+    "sticky.top.align": "left",
+    "sticky.top.offset": 24,
+    "sticky.bottom.type": "off",
+    "sticky.bottom.image": {
+      "items": [],
+      "selected": 0
+    },
+    "sticky.bottom.imageSize": 100,
+    "sticky.bottom.text": "",
+    "sticky.bottom.textSize": 36,
+    "sticky.bottom.textColor": "#111111",
+    "sticky.bottom.align": "left",
+    "sticky.bottom.offset": 24,
+    "preview.quality": "1",
+    "preview.renderedRange": "full",
+    "preview.renderedStatus": "",
+    "render.format": "mp4",
+    "render.videoFps": "60",
+    "render.gifFps": "24",
+    "render.resolution": "original",
+    "render.gifResolution": "original",
+    "render.transparent": false
+  },
+  "version": 2
+}

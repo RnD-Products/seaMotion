@@ -1,0 +1,58 @@
+[
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Black.ttf",
+    "italic": false,
+    "style": "Black",
+    "weight": 900
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Bold.ttf",
+    "italic": false,
+    "style": "Bold",
+    "weight": 700
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Light.ttf",
+    "italic": false,
+    "style": "Light",
+    "weight": 300
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Medium.ttf",
+    "italic": false,
+    "style": "Medium",
+    "weight": 500
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Regular.ttf",
+    "italic": false,
+    "style": "Regular",
+    "weight": 400
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist SemiBold.ttf",
+    "italic": false,
+    "style": "SemiBold",
+    "weight": 600
+  },
+  {
+    "family": "Urbanist",
+    "file": "Urbanist Thin.ttf",
+    "italic": false,
+    "style": "Thin",
+    "weight": 100
+  },
+  {
+    "family": "Geist",
+    "file": "Geist Light.ttf",
+    "italic": false,
+    "style": "Light",
+    "weight": 300
+  }
+]

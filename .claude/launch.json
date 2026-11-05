@@ -2,8 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "dev",
-      "url": "http://127.0.0.1:3002",
+      "name": "mo-app-dev",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": [
+        "-c",
+        "cd Mo_App_v.02 && exec npm run dev"
+      ],
       "port": 3002
     }
   ]
