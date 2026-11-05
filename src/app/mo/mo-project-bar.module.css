@@ -1,0 +1,183 @@
+.bar {
+  position: fixed;
+  top: 10px;
+  /* The same layer as the ratio bar and the artboard (20), so dialogs and their overlay (50) cover it. */
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  transform: translateX(-50%);
+  border: 1px solid color-mix(in oklab, var(--border) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 75%, transparent);
+  backdrop-filter: blur(24px) saturate(1.5);
+}
+
+.slot {
+  position: relative;
+}
+
+.name {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.separator {
+  color: var(--muted-foreground);
+}
+
+.muted {
+  color: var(--muted-foreground);
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 21;
+  display: flex;
+  min-width: 260px;
+  flex-direction: column;
+  gap: 16px;
+  padding: 14px;
+  border: 1px solid color-mix(in oklab, var(--border) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 92%, transparent);
+  backdrop-filter: blur(24px) saturate(1.5);
+  color: var(--popover-foreground);
+}
+
+.popupEnd {
+  right: 0;
+  left: auto;
+}
+
+.popupList {
+  gap: 4px;
+  padding: 6px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.id {
+  color: var(--muted-foreground);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.path {
+  overflow: hidden;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item {
+  justify-content: space-between;
+  gap: 24px;
+  padding-inline: 10px;
+}
+
+.older {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* The name popup hangs from the bar itself, so its left edge lines up with the bar's. */
+.slotStatic {
+  position: static;
+}
+
+.popupFromBar {
+  left: -1px;
+}
+
+/* Shown beside the version name while a change waits to be saved into it. */
+.pendingDot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-radius: 50%;
+  background: var(--link);
+  animation: pendingPulse 1s ease-in-out 3;
+}
+
+@keyframes pendingPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.7);
+  }
+}
+
+.versionRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 4px;
+  border-radius: 8px;
+}
+
+.versionRow:hover {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+/* The fill belongs to the whole row, so the icons sit inside it. */
+.versionActive,
+.versionActive:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+.versionRow .versionMain,
+.versionRow .versionMain:hover {
+  background: transparent;
+}
+
+.navActions {
+  display: flex;
+  gap: 2px;
+}
+
+.versionMain {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Duplicate and Delete show while the pointer or focus is on the row. */
+.rowActions {
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+}
+
+.versionRow:hover .rowActions,
+.versionRow:focus-within .rowActions {
+  opacity: 1;
+}
+
+/* Where a dragged version will land. */
+.dropTarget {
+  box-shadow: 0 -2px 0 0 var(--link);
+}

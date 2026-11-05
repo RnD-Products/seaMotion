@@ -1,0 +1,81 @@
+.bar {
+  position: fixed;
+  top: 10px;
+  /* The same layer as the artboard (20), so dialogs and their overlay (50) cover the bar with it. */
+  /* Below the project bar (20): where they meet, the project bar is on top. */
+  z-index: 19;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid color-mix(in oklab, var(--border) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 75%, transparent);
+  backdrop-filter: blur(24px) saturate(1.5);
+}
+
+.custom {
+  position: relative;
+}
+
+.popup {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 21;
+  display: flex;
+  width: 188px;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid color-mix(in oklab, var(--border) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 92%, transparent);
+  backdrop-filter: blur(24px) saturate(1.5);
+  color: var(--popover-foreground);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.unit {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  z-index: 21;
+  display: flex;
+  min-width: 188px;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid color-mix(in oklab, var(--border) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 92%, transparent);
+  backdrop-filter: blur(24px) saturate(1.5);
+  color: var(--popover-foreground);
+}
+
+.menuItem {
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.menuSize {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+/* The artboard's size beside its ratio, softer than the ratio itself. */
+.size {
+  opacity: 0.6;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}

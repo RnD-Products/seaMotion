@@ -1,0 +1,63 @@
+.layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.guide {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.guide polygon {
+  fill: none;
+  stroke: var(--toolcraft-custom-viz-line-strong);
+  stroke-dasharray: 5 4;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.pin {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--toolcraft-custom-viz-line-strong);
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.pin:hover,
+.pin:focus-visible {
+  border-color: var(--toolcraft-custom-viz-ink);
+}
+
+.pin:focus-visible {
+  outline: 2px solid var(--toolcraft-custom-viz-ink);
+  outline-offset: 2px;
+}
+
+.pin[data-selected="true"] {
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+.pin[data-selected="true"] span {
+  border-color: var(--accent);
+}
+
+.pin span {
+  position: absolute;
+  inset: 3px;
+  border-radius: 999px;
+  border: 1px solid var(--toolcraft-custom-viz-data);
+  background: transparent;
+  pointer-events: none;
+}

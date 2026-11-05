@@ -1,0 +1,97 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* The link toggle's column. A linked row draws a short node line up to the link of the row above. */
+.link {
+  position: relative;
+  display: flex;
+  width: 24px;
+  flex: none;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+}
+
+.chained::before {
+  position: absolute;
+  bottom: calc(50% + 8px);
+  left: calc(50% - 0.5px);
+  width: 1px;
+  height: calc(100% - 14px);
+  background: color-mix(in oklab, var(--foreground) 35%, transparent);
+  content: "";
+}
+
+.chained::after {
+  position: absolute;
+  bottom: calc(50% + 7px);
+  left: calc(50% - 1.5px);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--foreground) 45%, transparent);
+  content: "";
+}
+
+.unlinked {
+  color: color-mix(in oklab, var(--foreground) 40%, transparent);
+}
+
+.rowOpen {
+  min-width: 0;
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.meta {
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* A quiet tag after the name: the item stays on its last moment. */
+.tag {
+  margin-left: 4px;
+  color: var(--muted-foreground);
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.label {
+  width: 100%;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.editor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+}

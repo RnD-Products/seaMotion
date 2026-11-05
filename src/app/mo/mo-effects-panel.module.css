@@ -1,0 +1,65 @@
+.list {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* A name card: icon, name and a short line, pressed to turn the effect on or off. */
+.card {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  color: inherit;
+  text-align: left;
+}
+
+.card:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+.card:disabled {
+  opacity: 0.6;
+}
+
+.on {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+.icon {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+.text {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.name {
+  font-size: 12px;
+}
+
+.meta {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.state {
+  flex: none;
+  color: var(--muted-foreground);
+  font-size: 11px;
+}

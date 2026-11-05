@@ -1,0 +1,12 @@
+.canvas {
+  display: block;
+  pointer-events: none;
+}
+
+/* A transparent artboard background shows a quiet checkerboard behind the picture (not part of the picture: it is not rendered or exported):
+   big squares, two close greys. */
+.checker {
+  background-color: #f6f6f7;
+  background-image: conic-gradient(#e9e9ec 25%, transparent 25% 50%, #e9e9ec 50% 75%, transparent 75%);
+  background-size: 32px 32px;
+}

@@ -1,0 +1,10 @@
+.zoom {
+  width: 76px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.zoom button {
+  height: 28px;
+  min-height: 28px;
+}

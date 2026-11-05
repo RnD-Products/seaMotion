@@ -1,0 +1,106 @@
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Same dim as the other labels of the panel: their colour is 60% and their text another 60% on top. */
+.label {
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+.button {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  cursor: pointer;
+}
+
+.button:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--foreground);
+}
+
+.sides {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.button[data-on="true"] {
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  color: var(--foreground);
+}
+
+/* Top and right on the first row, left and bottom under them (each box says which side it is). */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+/* "Advanced": a quiet fold for the line style, like the Advanced fold of the Project tab. */
+.advanced {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fold {
+  display: flex;
+  height: 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fold:hover {
+  color: var(--foreground);
+}
+
+.caret,
+.caretOpen {
+  transition: transform 120ms ease;
+}
+
+.caretOpen {
+  transform: rotate(180deg);
+}
+
+.advancedBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Position, Weight and the individual strokes button on one row. */
+.weightRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 28px 28px;
+  align-items: end;
+  gap: 8px;
+}
+
+/* The row for a stroke that has no Position (a drawn path or a line): Weight and the button. */
+.weightRowShort {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 28px;
+  align-items: end;
+  gap: 8px;
+}

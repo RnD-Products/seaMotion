@@ -1,0 +1,311 @@
+@import "tailwindcss";
+@source ".";
+@source "./toolcraft/ui";
+@source "./toolcraft/runtime";
+@import "tw-animate-css";
+@import "@fontsource-variable/inter";
+@import "@/toolcraft/ui/styles.css";
+@import "@/toolcraft/runtime/styles.css";
+
+@theme {
+  --spacing-field-control: 0.3125rem;
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 0.875rem;
+  --text-xs-plus: 0.8125rem;
+  --text-xs-plus--line-height: 1.125rem;
+  --font-sans: "Inter Variable", sans-serif;
+  --font-mono:
+    ui-monospace, "SFMono-Regular", "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+@custom-variant focus-visible (&:is([data-focus-visible-mode="keyboard"] *):focus-visible);
+
+:root {
+  --background: oklch(0 0 0);
+  --foreground: oklch(0.977 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --link: #70b0fa;
+  --primary: oklch(0.546 0.215 262.88);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.249 0.07 263.47);
+  --secondary-foreground: oklch(0.977 0 0);
+  --muted: #262626;
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: #0c8ce9;
+  --accent-foreground: oklch(0.985 0 0);
+  --inspect: #9149f5;
+  --attention: #ea733a;
+  --attention-foreground: oklch(0.145 0 0);
+  --destructive: hsl(0 84% 60%);
+  --destructive-foreground: var(--foreground);
+  --border: oklch(0.311 0.013 279.19);
+  --input: oklch(0.311 0.013 279.19);
+  --ring: oklch(0.556 0 0);
+  --radius: 0.375rem;
+  --button-radius-xs: 0.125rem;
+  --button-radius-sm: 0.25rem;
+  --button-radius-md: 0.375rem;
+  --button-radius-lg: 0.5rem;
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    box-sizing: border-box;
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+#root {
+  overflow: clip;
+}
+
+input,
+button {
+  font-family: inherit;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--foreground) 10%, transparent) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  min-height: 2.75rem;
+  border: 0 solid transparent;
+  border-radius: 999px;
+  background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+  background-clip: padding-box;
+}
+
+/* The timeline is as wide as the scenes strip above it (from the project sidebar to the inspector), opened or folded. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"] {
+  width: var(--mo-strip-width, 688px) !important;
+  /* The framework centres a panel of its own width by shifting it; with this width it must not shift. */
+  transform: none !important;
+}
+
+/* The inspector starts below the toolbar (undo, redo, zoom) in the same column, so it is that much shorter. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="controls"] .toolcraft-panel-surface {
+  max-height: calc(100dvh - 10px - var(--mo-toolbar-band, 0px)) !important;
+}
+
+/* The toolbar above the inspector is as wide as the inspector; its buttons spread over the width. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="toolbar"] .toolcraft-panel-surface {
+  width: var(--mo-column-width, auto) !important;
+  justify-content: space-between;
+}
+
+/* The expanded timeline shows this motion's rows (motion-timeline.tsx) instead of Toolcraft's keyframe rows. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-expanded"] > :not([data-mo-tracks]) {
+  display: none !important;
+}
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"]:has([data-mo-tracks]) {
+  height: var(--mo-tracks-height, 110px) !important;
+}
+
+/* The height grip sits on the top edge of the expanded timeline panel. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"]:has([data-mo-tracks]) {
+  position: relative;
+}
+
+/* The drag icons of the timeline (the theme sets every cursor to the arrow with !important): a hand over a bar that can be moved, a
+   horizontal arrow on its right edge, a vertical arrow on the height grip, and the same icon all over while a drag is going on. */
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="move"] {
+  cursor: grab !important;
+}
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="resize"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="resize"]::before,
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="resize"]::after,
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="playhead"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="playhead"]::before,
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks] [data-drag="playhead"]::after {
+  cursor: ew-resize !important;
+}
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks-grip] [data-drag="height"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-tracks-grip] [data-drag="height"]::after {
+  cursor: ns-resize !important;
+}
+[data-mo-dragging="move"] [data-toolcraft-theme][data-toolcraft-theme],
+[data-mo-dragging="move"] [data-toolcraft-theme][data-toolcraft-theme] * {
+  cursor: grabbing !important;
+}
+[data-mo-dragging="resize"] [data-toolcraft-theme][data-toolcraft-theme],
+[data-mo-dragging="resize"] [data-toolcraft-theme][data-toolcraft-theme] * {
+  cursor: ew-resize !important;
+}
+[data-mo-dragging="height"] [data-toolcraft-theme][data-toolcraft-theme],
+[data-mo-dragging="height"] [data-toolcraft-theme][data-toolcraft-theme] * {
+  cursor: ns-resize !important;
+}
+
+/* The timeline is anchored to the bottom edge, in the middle of the free area: its bottom never moves when its height changes. The
+   position is plain CSS (--mo-timeline-x is set by mo-viewport.ts), so a resize needs no JS positioning. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] {
+  transform: translateX(var(--mo-timeline-x, 0px)) translateY(calc(100dvh - 10px - 100%)) !important;
+}
+
+/* The toolbar (undo, redo, zoom) is anchored to the top edge by CSS (its default place is the bottom middle): a window resize never moves
+   it to the bottom and back. --mo-toolbar-x is set by mo-viewport.ts. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="toolbar"] {
+  transform: translateX(var(--mo-toolbar-x, 0px)) translateY(calc(20px - 100dvh + 100%)) !important;
+}
+
+/* The inspector stays on the right edge by CSS (flush with it, below the toolbar): a window resize does not push it off the screen and
+   back, whatever offset the panel stored. The framework leaves 10 px at the right; the 10 px shift takes it. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="controls"] {
+  transform: translateX(10px) translateY(var(--mo-toolbar-band, 0px)) !important;
+}
+
+/* The app is not kept at least 1024 px wide (the framework's inline min-width): when the chat area is dragged wider and the pane gets narrower, the
+   right side (the toolbar and the inspector) stays at the pane's right edge instead of going outside it. */
+[data-slot="toolcraft-runtime-app"] {
+  min-width: 0 !important;
+}
+
+/* The playhead handle of the scenes strip: the horizontal arrow, as on the timeline's playhead. */
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="playhead"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="playhead"]::before,
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="playhead"]::after {
+  cursor: ew-resize !important;
+}
+
+/* The right edge of a scene in the scenes strip: the horizontal arrow (it changes the scene's length). */
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="resize"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="resize"]::after {
+  cursor: ew-resize !important;
+}
+
+/* The grip of a scene in the scenes strip: a hand, as over a bar in the timeline. */
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="move"],
+[data-toolcraft-theme][data-toolcraft-theme] [data-mo-scenes-strip] [data-drag="move"] * {
+  cursor: grab !important;
+}
+
+/* Layers panel: the list scrolls sideways when a name or its nesting is wider than the panel (the rows grow to the widest one). */
+[data-slot="layers-panel-content"] {
+  overflow-x: auto !important;
+}
+
+[data-slot="layers-panel-content"] > ul {
+  width: max-content;
+  min-width: 100%;
+}
+
+/* The left sidebar (project / layers) fills the height down to the bottom of the viewport, like the inspector on the right. */
+[data-mo-app-sidebar] {
+  bottom: 0;
+}
+
+[data-mo-app-sidebar] > .toolcraft-panel-surface ~ .toolcraft-panel-surface {
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0;
+  flex: 1 1 0;
+  /* The Layers panel is as wide as the Projects panel (248 px, the width of the tabs bar above it). */
+  width: 248px !important;
+  min-width: 248px;
+}
+
+/* The Layers list fills the panel down to its bottom edge, so its sideways scroll bar sits at the bottom of the panel. */
+[data-slot="scroll-fade"]:has(> [data-slot="layers-panel-content"]) {
+  flex: 1 1 0;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0;
+}
+
+[data-slot="layers-panel-content"] {
+  height: 100% !important;
+  max-height: none !important;
+}
+
+[data-slot="layers-panel-content"] {
+  scrollbar-color: color-mix(in oklab, var(--foreground) 30%, transparent) transparent;
+}
+
+/* The inspector always reaches the bottom of the window (no margin), whatever the tab: Project info and Modifier have less content and
+   the panel used to shrink to it. The panel starts at 56 px (below the toolbar). */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="controls"] .toolcraft-panel-surface {
+  height: calc(100vh - 56px) !important;
+  max-height: calc(100vh - 56px) !important;
+}
+
+/* The play line of the folded timeline runs under the scene blocks of the strip above it (not the whole bar): it starts where the first scene
+   starts (after the All tab, 124.5 px from the panel's left) and ends where the last one ends, so it ends under the strip's own playhead. */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-playback-line"] {
+  right: 6.5px !important;
+  left: 124.5px !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+/* The timeline opens and folds at once: no height or fade animation (what sits above it, the scenes strip, moves with it in the same frame). */
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"],
+[data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Folded: the timeline panel is its one-line height straight away (it was animated from the open height by script). */
+html[data-mo-timeline="folded"] [data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"],
+html[data-mo-timeline="folded"] [data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"]:has([data-mo-tracks]) {
+  height: 36px !important;
+}
+
+/* Open: the panel is its open height straight away too (its rows fill in as soon as the timeline has built them). */
+html[data-mo-timeline="open"] [data-slot="toolcraft-runtime-panel-host"][data-panel-type="timeline"] [data-slot="timeline-panel"] {
+  height: var(--mo-tracks-height, 204px) !important;
+}
+
+/* The artboard width and height live in the Modifier tab (Artboard setting), not in Project info. */
+[data-control-layout-group]:has([data-toolcraft-control-id="canvasWidth"]) {
+  display: none !important;
+}
+
+/* The artboard is centred between the project sidebar and the inspector; the tool rail (40px + 6px gap) takes room on the
+   inspector's left, so the artboard moves left by half of it and stays centred in the space that is left. */
+[data-toolcraft-canvas-world] {
+  margin-left: -23px;
+}

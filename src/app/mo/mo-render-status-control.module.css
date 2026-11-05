@@ -1,0 +1,11 @@
+.status,
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.error {
+  color: var(--destructive);
+}

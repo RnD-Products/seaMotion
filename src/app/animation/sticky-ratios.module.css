@@ -1,0 +1,12 @@
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.label {
+  width: 100%;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+}

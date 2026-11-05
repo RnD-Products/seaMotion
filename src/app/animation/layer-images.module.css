@@ -1,0 +1,114 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+}
+
+.tile {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--muted);
+  cursor: grab;
+}
+
+.tile[data-over="true"] {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+.tile[data-dragging="true"] {
+  opacity: 0.4;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.badge {
+  position: absolute;
+  top: 3px;
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--background) 70%, transparent);
+  color: var(--foreground);
+}
+
+.handle {
+  left: 3px;
+  cursor: grab;
+}
+
+.remove {
+  right: 3px;
+  cursor: pointer;
+}
+
+.remove:hover {
+  background: var(--background);
+}
+
+.add {
+  display: inline-flex;
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 8px;
+  background: var(--muted);
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.add:hover {
+  color: var(--foreground);
+}
+
+.input {
+  display: none;
+}
+
+.tile[data-selected="true"] {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.kind {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+}
+
+.kindTop {
+  top: 4px;
+  bottom: auto;
+}

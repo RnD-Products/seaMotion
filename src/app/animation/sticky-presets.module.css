@@ -1,0 +1,87 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  position: relative;
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  border: 1px solid color-mix(in oklab, var(--foreground) 16%, transparent);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+
+.chip.active {
+  border-color: var(--primary, #4d8bff);
+  background: color-mix(in oklab, var(--primary, #4d8bff) 18%, transparent);
+}
+
+.name {
+  overflow: hidden;
+  max-width: 150px;
+  padding: 3px 8px 3px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--foreground);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tool {
+  display: flex;
+  width: 0;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+  opacity: 0;
+  transition: width 120ms, opacity 120ms;
+}
+
+/* The x shows while the pointer is over the preset. */
+.chip:hover .tool {
+  width: 18px;
+  opacity: 1;
+}
+
+.tool:hover {
+  color: var(--foreground);
+}
+
+.rename {
+  width: 120px;
+  padding: 3px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 12px;
+  outline: 1px solid color-mix(in oklab, var(--foreground) 40%, transparent);
+}

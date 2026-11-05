@@ -1,0 +1,551 @@
+.root {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1 1 0;
+  flex-direction: column;
+  color: var(--foreground);
+  font-size: 11px;
+  user-select: none;
+}
+
+.ruler {
+  position: relative;
+  flex: 0 0 22px;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 14%, transparent);
+  cursor: pointer;
+}
+
+.tick {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+.mini {
+  position: absolute;
+  bottom: 0;
+  width: 1px;
+  height: 6px;
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+}
+
+.tickFirst {
+  /* The line at the start is the start line itself (no second line beside it). */
+  background: transparent;
+}
+
+.tickLabel {
+  position: absolute;
+  top: 2px;
+  margin-left: 4px;
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.tickLabelEnd {
+  /* A label that would run past the right edge sits on the left of its line instead. */
+  right: 4px;
+  margin-left: 0;
+}
+
+.rowsWrap {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1 1 0;
+}
+
+.rowsWrap > .rows {
+  min-height: 0;
+  flex: 1 1 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  /* The native bar is hidden; a thin indicator of our own sits in the column kept free here (--gutter), which the ruler, the
+     playhead and the scenes strip also leave free: the keyframes at the end of a row are never under it and the end of the
+     scenes lines up with the end of the time. */
+  padding-right: var(--gutter, 6px);
+  scrollbar-width: none;
+}
+
+.rowsWrap > .rows::-webkit-scrollbar {
+  display: none;
+}
+
+.thumbTrack {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--gutter, 6px);
+  pointer-events: none;
+}
+
+.thumb {
+  position: absolute;
+  right: 1px;
+  width: 3px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 30%, transparent);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.thumb:hover {
+  background: color-mix(in oklab, var(--foreground) 55%, transparent);
+}
+
+.row {
+  position: relative;
+  display: flex;
+  height: 24px;
+  align-items: stretch;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 8%, transparent);
+}
+
+.label {
+  display: flex;
+  box-sizing: border-box;
+  flex: 0 0 var(--label, 124px);
+  align-items: center;
+  padding: 0 8px;
+  overflow: hidden;
+  color: var(--muted-foreground);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track {
+  position: relative;
+  min-width: 0;
+  flex: 1 1 0;
+}
+
+.bar {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  display: flex;
+  min-width: 3px;
+  align-items: center;
+  padding: 0 6px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  color: var(--foreground);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editable {
+  cursor: grab; /* the drag icon over a bar that can be moved */
+  background: color-mix(in oklab, var(--primary, #4d8bff) 55%, transparent);
+}
+
+.editable:active {
+  cursor: grabbing;
+}
+
+/* A bar with keyframes: a diamond at its start and at its end. */
+.keyed {
+  padding: 0 16px;
+}
+
+.key {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  width: 9px;
+  height: 9px;
+  background: var(--foreground);
+  cursor: pointer;
+  transform: translateY(-50%) rotate(45deg);
+  /* A larger area to press than the diamond itself. */
+}
+
+.key::after {
+  position: absolute;
+  inset: -4px;
+  content: "";
+}
+
+.keyStart {
+  left: 4px;
+}
+
+/* A keyframe inside a bar (a Lottie animation's own keys): placed by its time along the bar, smaller than the ends. */
+.keyMark {
+  width: 7px;
+  height: 7px;
+  margin-left: -3px;
+}
+
+.keyEnd {
+  right: 4px;
+}
+
+.key:hover {
+  background: var(--primary, #4d8bff);
+}
+
+.keyPicked {
+  background: var(--primary, #4d8bff);
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--foreground) 85%, transparent);
+}
+
+.handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 10px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+/* A grip line on the right edge, seen when the pointer is over the bar: the place to drag to change its length. */
+.handle::after {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  bottom: 4px;
+  width: 3px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 55%, transparent);
+  content: "";
+  opacity: 0;
+  transition: opacity 120ms;
+}
+
+.bar:hover .handle::after,
+.handle:hover::after {
+  opacity: 1;
+}
+
+.bar:hover {
+  filter: brightness(1.15);
+}
+
+.scene {
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  cursor: pointer;
+}
+
+.current {
+  background: color-mix(in oklab, var(--foreground) 26%, transparent);
+}
+
+.playhead {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  width: 14px;
+  margin-left: -7px;
+  /* The line ignores the pointer (a bar under it keeps working); its top, the grip, is grabbed. */
+  pointer-events: none;
+  touch-action: none;
+}
+
+.playheadGrip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 26px;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.playhead::before {
+  position: absolute;
+  top: 15px;
+  bottom: 0;
+  left: 6px;
+  width: 2px;
+  background: var(--foreground);
+  content: "";
+}
+
+/* The knob under the label. */
+.playhead::after {
+  position: absolute;
+  top: 12px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--foreground);
+  content: "";
+}
+
+/* The time ("seconds:frame", the frame counting 0 – 99 and starting again every second) at the top of the playhead. */
+.stamp {
+  position: absolute;
+  top: 0;
+  padding: 0 6px;
+  border-radius: 4px;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  line-height: 13px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.stampMiddle {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.stampStart {
+  left: 7px;
+}
+
+.stampEnd {
+  right: 7px;
+}
+
+.empty {
+  padding: 10px 12px;
+  color: var(--muted-foreground);
+}
+
+.grip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 6;
+  display: flex;
+  height: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+.grip::after {
+  width: 36px;
+  height: 3px;
+  border-radius: 2px;
+  background: color-mix(in oklab, var(--foreground) 22%, transparent);
+  content: "";
+}
+
+.grip:hover::after {
+  background: color-mix(in oklab, var(--foreground) 45%, transparent);
+}
+
+/* The line where the rows start (the scene blocks above start here too), down to the bottom of the panel however tall it is. */
+.startLine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 2;
+  width: 1px;
+  background: color-mix(in oklab, var(--foreground) 45%, transparent);
+  pointer-events: none;
+}
+
+/* The bar that is picked (Delete removes it, the arrow keys nudge it). */
+.picked {
+  box-shadow: 0 0 0 1.5px var(--foreground);
+  z-index: 1;
+}
+
+/* The sideways scroll bar along the bottom of the keyframe area (when zoomed in): its thumb is the part of the time that is shown. */
+.hscroll {
+  position: absolute;
+  bottom: 2px;
+  z-index: 6;
+  height: 5px;
+}
+
+.hthumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-width: 16px;
+  border-radius: 3px;
+  background: color-mix(in oklab, var(--foreground) 32%, transparent);
+  cursor: grab;
+  touch-action: none;
+}
+
+.hthumb:hover {
+  background: color-mix(in oklab, var(--foreground) 55%, transparent);
+}
+
+/* A group of rows (the slide-ins of one step): its label folds and opens the layers; the layers are set in a little. */
+.groupLabel {
+  cursor: pointer;
+}
+
+.groupLabel:hover {
+  color: var(--foreground);
+}
+
+.indented {
+  padding-left: 22px;
+}
+
+/* A scene bar that is being moved, and the line where it will land. */
+.lifted {
+  opacity: 0.55;
+}
+
+.dropLine {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  z-index: 6;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 1px;
+  background: var(--primary, #4d8bff);
+  pointer-events: none;
+}
+
+/* A line on the Scenes group bar where each scene starts, with its number. */
+.sceneMark {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  z-index: 5;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.85);
+  pointer-events: none;
+}
+
+/* The name of the scene the pointer rests on (after half a second). */
+.sceneTip {
+  position: fixed;
+  z-index: 60;
+  padding: 3px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  background: #1c1c1c;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 2px));
+  /* The app switches every transition off (mo-instant-ui); this label alone is smooth, so its durations are set with
+     !important to win over that rule. */
+  transition-property: left, opacity, transform;
+  transition-duration: 140ms, 120ms, 140ms !important;
+  transition-delay: 0s !important;
+  transition-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1), ease-out, cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.sceneTip[data-open] {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 6px));
+  animation-name: sceneTipIn;
+  animation-duration: 140ms !important;
+  animation-delay: 0s !important;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-fill-mode: backwards;
+}
+
+@keyframes sceneTipIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 1px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sceneTip,
+  .sceneTip[data-open] {
+    animation-name: none;
+    transition-duration: 0s, 80ms, 0s !important;
+  }
+}
+
+/* A scene name that does not fit its bar: a short line from the bar, then the name. */
+.outLabel {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  color: var(--foreground);
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.outLabel::before {
+  width: 8px;
+  height: 1px;
+  margin-right: 3px;
+  background: currentColor;
+  content: "";
+}
+
+.outLeft {
+  flex-direction: row-reverse;
+}
+
+.outLeft::before {
+  margin-right: 0;
+  margin-left: 3px;
+}
+
+/* Cmd / Ctrl held over a video part: a line where it would be cut, with a pair of scissors on it. */
+.cut {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed var(--foreground);
+  pointer-events: none;
+}
+
+.cut svg {
+  position: absolute;
+  top: 50%;
+  left: 3px;
+  transform: translateY(-50%);
+  color: var(--foreground);
+}
+
+/* The left edge of a scene's bar: drag it to start the scene over the end of the scene before. */
+.leadHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  width: 8px;
+  cursor: ew-resize;
+  touch-action: none;
+}
+
+.leadHandle::after {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 2px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--foreground);
+  content: "";
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.bar:hover .leadHandle::after,
+.leadHandle:hover::after {
+  opacity: 0.6;
+}

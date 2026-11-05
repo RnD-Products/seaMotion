@@ -1,0 +1,950 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      :root {
+        --bg: var(--figma-color-bg, #fff);
+        --bg2: var(--figma-color-bg-secondary, #f5f5f5);
+        --text: var(--figma-color-text, #1e1e1e);
+        --muted: var(--figma-color-text-secondary, #6b6b6b);
+        --border: var(--figma-color-border, #e3e3e3);
+        --brand: var(--figma-color-bg-brand, #0d99ff);
+        --onbrand: var(--figma-color-text-onbrand, #fff);
+        --ok: var(--figma-color-bg-success, #14ae5c);
+        --danger: var(--figma-color-text-danger, #f24822);
+      }
+      html { height: 100%; }
+      body { margin: 0; padding: 16px; font: 12px/1.45 Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); display: flex; flex-direction: column; gap: 14px; }
+      header { display: flex; align-items: center; gap: 8px; }
+      header h1 { margin: 0; font-size: 13px; font-weight: 650; letter-spacing: -0.01em; flex: 1; }
+      .chip { padding: 1px 7px; border-radius: 999px; background: var(--bg2); color: var(--muted); font-size: 10px; font-weight: 600; }
+
+      .card { display: flex; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg2); min-height: 92px; }
+      .thumb { flex: none; width: 68px; height: 68px; border-radius: 8px; overflow: hidden; background: repeating-conic-gradient(#d9d9d9 0 25%, #f2f2f2 0 50%) 50% / 12px 12px; display: grid; place-items: center; color: var(--muted); font-size: 22px; }
+      .thumb img { width: 100%; height: 100%; object-fit: contain; display: block; }
+      .info { min-width: 0; display: flex; flex-direction: column; gap: 6px; flex: 1; justify-content: center; }
+      .name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .meta { color: var(--muted); }
+      .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+      .chips .chip { background: var(--bg); border: 1px solid var(--border); }
+      .empty { color: var(--muted); align-self: center; }
+
+      .options { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+      .option { display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer; }
+      .option + .option { border-top: 1px solid var(--border); }
+      .option .text { flex: 1; min-width: 0; }
+      .option .title { font-weight: 550; }
+      .option .desc { color: var(--muted); font-size: 11px; }
+      .option input { position: absolute; opacity: 0; pointer-events: none; }
+      .switch { flex: none; width: 30px; height: 18px; border-radius: 999px; background: var(--border); position: relative; transition: background 0.15s; }
+      .switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.3); transition: transform 0.15s; }
+      .option input:checked + .switch { background: var(--brand); }
+      .option input:checked + .switch::after { transform: translateX(12px); }
+      .option input:focus-visible + .switch { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+      .actions { display: flex; flex-direction: column; gap: 8px; margin-top: auto; }
+      button { font: 600 12px Inter, system-ui, sans-serif; cursor: pointer; border-radius: 8px; border: 0; }
+      #copy { padding: 11px 14px; background: var(--brand); color: var(--onbrand); font-size: 13px; transition: background 0.15s, transform 0.05s; }
+      #copy:active:not(:disabled) { transform: scale(0.99); }
+      #copy:disabled { opacity: 0.4; cursor: default; }
+      #copy.done { background: var(--ok); }
+      #clean { padding: 9px 14px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); }
+      #clean:disabled { opacity: 0.4; cursor: default; }
+      #clean.armed { background: var(--danger); color: #fff; border-color: var(--danger); }
+      #toggle { padding: 6px; background: transparent; color: var(--muted); font-weight: 500; }
+      #toggle:hover { color: var(--text); }
+      .hint { color: var(--muted); font-size: 11px; text-align: center; }
+      .error { color: var(--danger); font-size: 11px; }
+
+      #preview { display: none; width: 100%; height: 150px; resize: none; border: 1px solid var(--border); border-radius: 8px; padding: 8px; font: 10.5px/1.4 ui-monospace, Menlo, monospace; color: inherit; background: var(--bg2); }
+      #preview.open { display: block; }
+
+      .marks { display: flex; flex-direction: column; gap: 6px; }
+      .marks .row { display: flex; gap: 6px; }
+      .markbtn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 4px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); border-radius: 8px; font-weight: 550; font-size: 10.5px; }
+      .markbtn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+      .markbtn:disabled { opacity: 0.4; cursor: default; }
+      .markbtn.on { background: var(--brand); color: var(--onbrand); border-color: var(--brand); }
+      .markbtn .n { font-weight: 600; opacity: 0.75; }
+      .tagrow { display: flex; align-items: center; gap: 8px; }
+      .tagrow button#tagpen { flex: none; padding: 6px; background: transparent; color: var(--muted); }
+      .tagrow label { color: var(--muted); font-size: 11px; font-weight: 550; }
+      .tagrow select { flex: 1; font: 500 12px Inter, system-ui, sans-serif; color: var(--text); background: var(--bg2); border: 1px solid var(--border); border-radius: 7px; padding: 6px 8px; }
+      .tagrow input { flex: 1; min-width: 0; font: 500 12px Inter, system-ui, sans-serif; color: var(--text); background: var(--bg2); border: 1px solid var(--border); border-radius: 7px; padding: 6px 8px; }
+      .tagrow button { padding: 6px 10px; }
+      .tagrow[hidden] { display: none; }
+      .tagrow select:disabled { opacity: 0.4; }
+      .markinfo { color: var(--muted); font-size: 11px; display: flex; align-items: center; gap: 8px; }
+      .markinfo button { padding: 2px 6px; background: transparent; color: var(--muted); font-weight: 500; text-decoration: underline; }
+
+      .options.compact .option { padding: 7px 10px; gap: 8px; }
+      .options.compact .title { font-weight: 500; }
+      .group { display: flex; flex-direction: column; gap: 6px; }
+      .grouphead { font-size: 10.5px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); cursor: default; list-style: none; }
+      details.group > summary { cursor: pointer; padding: 2px 0; }
+      details.group > summary::before { content: "▸ "; }
+      details.group[open] > summary::before { content: "▾ "; }
+      .grouphead.clickable { cursor: pointer; user-select: none; }
+      .grouphead.clickable:hover { color: var(--text); }
+      #cleangear.on { background: var(--brand); color: var(--onbrand); border-color: var(--brand); }
+      .cleanrow { display: flex; gap: 6px; }
+      #clean { flex: 1; }
+      #cleangear { padding: 9px 12px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); font-size: 14px; line-height: 1; }
+      .card { min-height: 0; padding: 10px; }
+      .thumb { width: 56px; height: 56px; }
+      .chips .chip { font-size: 9.5px; }
+      .hint { text-align: left; }
+      body { gap: 12px; padding: 14px; min-height: 100vh; }
+
+      .tabrow { display: flex; gap: 4px; padding: 3px; border: 1px solid var(--border); border-radius: 9px; background: var(--bg2); }
+      .tabbtn { flex: 1; padding: 6px; background: transparent; color: var(--muted); border-radius: 7px; font-weight: 600; }
+      .tabbtn.on { background: var(--bg); color: var(--text); box-shadow: 0 0 0 1px var(--border); }
+      #analyze { padding: 10px 14px; background: var(--brand); color: var(--onbrand); font-size: 13px; }
+      #analyze:disabled { opacity: 0.4; cursor: default; }
+      .issue { border: 1px solid var(--border); border-radius: 9px; padding: 9px 10px; display: flex; flex-direction: column; gap: 5px; background: var(--bg2); }
+      .issue .head { display: flex; gap: 6px; align-items: center; font-weight: 600; }
+      .sev { flex: none; width: 8px; height: 8px; border-radius: 50%; }
+      .sev.error { background: #f24822; } .sev.warn { background: #facc15; } .sev.info { background: #8a8a8a; }
+      .issue .count { margin-left: auto; color: var(--muted); font-weight: 500; font-size: 11px; }
+      .issue .why { color: var(--muted); font-size: 11px; }
+      .issue .fix { font-size: 11px; }
+      .issue .fix b { font-weight: 650; }
+      .layers { display: flex; flex-wrap: wrap; gap: 4px; }
+      .layers button { padding: 2px 7px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 999px; font-weight: 500; font-size: 10.5px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .layers .morebtn { color: var(--muted); border-style: dashed; }
+      .layers .morebtn:hover { color: var(--text); }
+      .layers .selall { color: var(--brand); border-color: var(--brand); }
+      .summary { font-weight: 600; }
+      .good { color: var(--ok); font-weight: 600; }
+
+      .sizes { display: flex; align-items: center; gap: 8px; margin-top: -6px; }
+      .sizeline { flex: 1; font-size: 11px; color: var(--muted); display: flex; flex-direction: column; gap: 1px; }
+      .sizeline b { color: var(--text); font-weight: 600; }
+      #measure { padding: 6px 10px; background: var(--bg2); color: var(--text); border: 1px solid var(--border); font-weight: 600; font-size: 11px; }
+      #measure:disabled { opacity: 0.4; cursor: default; }
+
+      .pics { display: flex; flex-direction: column; gap: 8px; }
+      .pics .box { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; background: var(--bg2); }
+      .pics .row { display: flex; align-items: center; gap: 8px; }
+      .pics .row label { flex: 1; color: var(--muted); font-size: 11px; }
+      .pics select, .pics input[type=number] { font: 500 12px Inter, system-ui, sans-serif; color: var(--text); background: var(--bg); border: 1px solid var(--border); border-radius: 7px; padding: 5px 6px; width: 110px; }
+      .pics .total { font-size: 11px; color: var(--muted); }
+      .pics .total b { color: var(--text); font-weight: 600; }
+      .pics .total .save { color: var(--ok); font-weight: 600; }
+      .pics ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 3px; max-height: 120px; overflow: auto; font-size: 10.5px; color: var(--muted); }
+      .pics li { display: flex; gap: 6px; }
+      .pics li span:first-child { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .pics li b { color: var(--text); font-weight: 550; }
+      .hidden { position: fixed; left: -9999px; top: 0; width: 10px; height: 10px; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>seaMotion</h1>
+      <span class="chip">plugin</span>
+    </header>
+
+    <div class="tabrow" role="tablist">
+      <button class="tabbtn on" id="tab-design" role="tab" type="button">Design</button>
+      <button class="tabbtn" id="tab-lottie" role="tab" type="button">Lottie</button>
+    </div>
+
+    <section class="card" id="card">
+      <div class="thumb" id="thumb">◻︎</div>
+      <div class="info" id="info"><div class="empty" id="empty">Select a frame or layers in Figma to copy them.</div></div>
+    </section>
+    <section class="sizes" id="sizes" hidden>
+      <div class="sizeline" id="sizeline"></div>
+      <button id="measure" type="button" disabled>Measure file size</button>
+    </section>
+
+    <div id="designTab" style="display:flex;flex-direction:column;gap:12px">
+    <section class="marks" aria-label="Marks">
+      <div class="row">
+        <button class="markbtn" id="mark-bg" data-mark="bg" disabled title="Artboard background: this frame's fill (solid or gradient), name and size become the app's artboard">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/></svg>
+          Artboard<span class="n" id="n-bg"></span>
+        </button>
+        <button class="markbtn" id="mark-single" data-mark="single" disabled title="Single layer: comes in as one picture layer, its children are not listed">
+          <svg viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/></svg>
+          Single<span class="n" id="n-single"></span>
+        </button>
+        <button class="markbtn" id="mark-image" data-mark="image" disabled title="Import as image: the layer comes in as one picture (a 2x PNG), its children are not listed">
+          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-4 4 3 3-2 6 4"/></svg>
+          Image<span class="n" id="n-image"></span>
+        </button>
+        <button class="markbtn" id="mark-asset" data-mark="asset" disabled title="Asset: comes in as one SVG layer, however large">
+          <svg viewBox="0 0 24 24"><path d="M4 18c3-9 6-9 8-4s5 3 8-8"/><circle cx="4" cy="18" r="1.4"/><circle cx="20" cy="6" r="1.4"/></svg>
+          Asset (SVG)<span class="n" id="n-asset"></span>
+        </button>
+      </div>
+      <div class="tagrow">
+        <label for="tagpick">Tag</label>
+        <select id="tagpick" disabled title="What kind of layer this is. Not shown in the layer name; the app shows it in Modifier > Layer > Tag, and a motion preset can be given to every layer with a tag."></select>
+        <button id="tagpen" type="button" disabled title="Rename this tag on every layer of the page that has it" aria-label="Rename this tag"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4l10-10a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button>
+      </div>
+      <div class="tagrow" id="tagnamerow" hidden>
+        <input id="tagname" type="text" maxlength="24" autocomplete="off" />
+        <button id="tagok" type="button">Add</button>
+        <button id="tagcancel" type="button" class="ghost">Cancel</button>
+      </div>
+      <div class="markinfo"><span id="markhint">Mark a layer; its name gets a sign ([bg], [1], [img], [svg]) removed on import.</span><button id="clearmarks" type="button" hidden>Clear</button></div>
+    </section>
+
+    <section class="group">
+      <div class="cleanrow">
+        <button id="clean" type="button" disabled>Clean selection in Figma</button>
+        <button id="cleangear" type="button" title="Cleaning settings">⚙</button>
+      </div>
+      <div class="options compact" id="cleansettings" hidden>
+        <label class="option" title="Remove numbers like “Rectangle 4821”; every name is unique"><div class="text"><div class="title">Layer names</div></div><input type="checkbox" id="cs-names" checked /><span class="switch"></span></label>
+        <label class="option" title="Whole-number positions, sizes, radius, strokes and effects"><div class="text"><div class="title">Round every value</div></div><input type="checkbox" id="cs-round" checked /><span class="switch"></span></label>
+        <label class="option" title="Delete hidden layers (a hidden mask stays)"><div class="text"><div class="title">Hidden layers</div></div><input type="checkbox" id="cs-hidden" checked /><span class="switch"></span></label>
+        <label class="option" title="Remove fills, strokes and effects that are switched off"><div class="text"><div class="title">Switched-off fills, strokes, effects</div></div><input type="checkbox" id="cs-paints" checked /><span class="switch"></span></label>
+      </div>
+      <div class="hint" id="cleanhint">Changes your Figma file; ⌘Z undoes it. The copy is cleaned the same way.</div>
+    </section>
+
+    <details class="group" id="copyopts">
+      <summary class="grouphead">What to copy</summary>
+      <div class="options compact">
+        <label class="option" title="Done on a hidden scratch page when you press Copy; your design is never changed"><div class="text"><div class="title">Detach instances, no auto layout</div></div><input type="checkbox" id="flatten" checked /><span class="switch"></span></label>
+        <label class="option" title="A 2× image, exactly as it looks (blur, glow, glass)"><div class="text"><div class="title">Picture of the design</div></div><input type="checkbox" id="png" checked /><span class="switch"></span></label>
+        <label class="option" title="Sharp icons up to 96 px, kept editable"><div class="text"><div class="title">Icons and vectors as SVG</div></div><input type="checkbox" id="svg" checked /><span class="switch"></span></label>
+        <label class="option" title="Stacked colors arrive as one picture; photos as their original file"><div class="text"><div class="title">Multi-color or picture fills</div></div><input type="checkbox" id="fillImages" checked /><span class="switch"></span></label>
+        <label class="option" title="Shown in the app until a missing font is added there"><div class="text"><div class="title">Texts as picture too</div></div><input type="checkbox" id="textImages" checked /><span class="switch"></span></label>
+        <label class="option" title="Adds a vector copy of each selected layer"><div class="text"><div class="title">Whole selection as SVG</div></div><input type="checkbox" id="frameSvg" /><span class="switch"></span></label>
+      </div>
+    </details>
+
+    <section class="pics group" id="pics" hidden>
+      <div class="grouphead">Pictures</div>
+      <div class="options compact">
+        <label class="option" title="Make the pictures in the copy smaller: set the widest a picture may be and see its size before you copy"><div class="text"><div class="title">Make pictures smaller</div><div class="desc" id="picdesc"></div></div><input type="checkbox" id="picon" /><span class="switch"></span></label>
+      </div>
+      <div class="box" id="picbox" hidden>
+        <div class="row">
+          <label for="picpreset">Max width (px)</label>
+          <select id="picpreset" title="Pictures wider than this are made smaller; none is ever enlarged">
+            <option value="2048">2048</option><option value="1600">1600</option><option value="1280">1280</option><option value="1024">1024</option><option value="768">768</option><option value="512">512</option><option value="custom">Custom…</option>
+          </select>
+          <input id="picmax" type="number" min="16" max="8192" step="1" placeholder="px" hidden />
+        </div>
+        <div class="total" id="pictotal"></div>
+        <ul id="piclist"></ul>
+      </div>
+    </section>
+
+    <div class="actions">
+      <div class="error" id="error" hidden></div>
+      <button id="copy" disabled>Copy design</button>
+      <button id="toggle" type="button">Show JSON</button>
+      <textarea id="preview" readonly spellcheck="false"></textarea>
+      <div class="hint">Then in seaMotion: Projects ▸ Paste design ▸ Import</div>
+    </div>
+    </div>
+
+    <section id="lottieTab" class="group" hidden>
+      <div class="hint">Finds what a Lottie file cannot carry in the selection, and how to solve each. Your design is not changed.</div>
+      <label class="option" style="border:1px solid var(--border);border-radius:9px" title="Layers with effects, blend modes, boolean shapes, angular gradients or inside/outside strokes are copied as one picture layer each (texts stay text). Your Figma file is not changed."><div class="text"><div class="title">Import layers with issues as pictures</div><div class="desc">Each such layer arrives as one picture; texts stay text</div></div><input type="checkbox" id="issuePictures" /><span class="switch"></span></label>
+      <button id="analyze" type="button" disabled>Analyze selection</button>
+      <div id="report"></div>
+    </section>
+
+    <textarea id="full" class="hidden" aria-hidden="true" tabindex="-1"></textarea>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const copy = $("copy"), preview = $("preview"), full = $("full"), info = $("info"), thumb = $("thumb"), errorBox = $("error");
+      let timer = null;
+      let ready = false; // the JSON of the current selection has been built and is waiting in the hidden box
+      let busy = false;
+      let hasSelection = false;
+      let jsonSize = "";
+
+      const size = (text) => (text.length > 1048576 ? (text.length / 1048576).toFixed(1) + " MB" : Math.ceil(text.length / 1024) + " KB");
+      const plural = (n, word) => n + " " + word + (n === 1 ? "" : "s");
+      const PLACEHOLDER = "Press Copy design: the JSON is built then, and shown here.";
+
+      function resetButton() {
+        busy = false;
+        copy.classList.remove("done");
+        copy.textContent = "Copy design";
+        copy.disabled = !hasSelection;
+      }
+
+      function showEmpty() {
+        hasSelection = false;
+        pics.selection = [];
+        ready = false;
+        resetPictures();
+        thumb.textContent = "◻︎";
+        info.innerHTML = '<div class="empty">Select a frame or layers in Figma to copy them.</div>';
+        preview.value = PLACEHOLDER;
+        full.value = "";
+        resetButton();
+      }
+
+      function renderSummary(message, extra) {
+        const s = message.summary || {};
+        const chips = [];
+        if (s.texts) chips.push(plural(s.texts, "text"));
+        if (s.frames) chips.push(plural(s.frames, "frame"));
+        if (s.icons) chips.push(plural(s.icons, "icon or instance"));
+        if (s.pictureFills) chips.push(plural(s.pictureFills, "picture fill"));
+        if (s.effects) chips.push(plural(s.effects, "effect"));
+        const nameEl = document.createElement("div");
+        nameEl.className = "name";
+        nameEl.textContent = message.title;
+        nameEl.title = message.title;
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.textContent = [message.size, plural(message.layers, "layer"), extra].filter(Boolean).join(" · ");
+        const chipRow = document.createElement("div");
+        chipRow.className = "chips";
+        chips.forEach((text) => { const c = document.createElement("span"); c.className = "chip"; c.textContent = text; chipRow.appendChild(c); });
+        info.replaceChildren(nameEl, meta, chipRow);
+      }
+
+      // The clipboard API is blocked in plugin windows, so the text is selected and copied the old way.
+      function tryCopy() {
+        full.focus();
+        full.select();
+        let done = false;
+        try { done = document.execCommand("copy"); } catch (error) { done = false; }
+        full.setSelectionRange(0, 0);
+        return done;
+      }
+
+      function showCopied(done) {
+        busy = false;
+        copy.disabled = false;
+        clearTimeout(timer);
+        if (done) {
+          copy.textContent = "Copied ✓";
+          copy.classList.add("done");
+          parent.postMessage({ pluginMessage: { type: "copied" } }, "*");
+          timer = setTimeout(resetButton, 1800);
+        } else {
+          // The window was not allowed to copy by itself this time: one more click does it, the text is ready.
+          copy.textContent = "Ready — click to copy";
+        }
+      }
+
+
+      // The window is as tall as what it shows.
+      const WINDOW_HEIGHT = 640;
+      const fit = () => requestAnimationFrame(() => parent.postMessage({ pluginMessage: { type: "resize", height: WINDOW_HEIGHT } }, "*"));
+      $("copyopts").addEventListener("toggle", fit);
+
+      // Marks sit on layers as plugin data, so a layer's name never changes; they are read when the design is copied.
+      const MARK_LABELS = { bg: "Artboard", single: "Single layer", image: "Import as image", asset: "Asset (SVG)" };
+      document.querySelectorAll(".markbtn").forEach((button) => {
+        button.onclick = () => {
+          ready = false;
+          resetPictures();
+          if (!busy) resetButton();
+          parent.postMessage({ pluginMessage: { type: "mark", mark: button.dataset.mark } }, "*");
+        };
+      });
+      $("clearmarks").onclick = () => {
+        ready = false;
+        resetPictures();
+        if (!busy) resetButton();
+        parent.postMessage({ pluginMessage: { type: "clearMarks" } }, "*");
+      };
+      // The Tag picker: the ready-made tags, the ones you made, then New tag and Rename tag (which ask for a name).
+      const READY_TAGS = ["image", "text", "video", "frame", "group", "shape", "path", "vector", "icon", "button", "background"];
+      const cap = (tag) => (READY_TAGS.indexOf(tag) >= 0 ? tag.charAt(0).toUpperCase() + tag.slice(1) : tag);
+      let tagNaming = null;
+      let currentTag = "";
+      function fillTags(custom, current) {
+        const select = $("tagpick");
+        select.textContent = "";
+        const add = (value, label, hidden) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = label;
+          if (hidden) option.hidden = true;
+          select.appendChild(option);
+        };
+        add("", "No tag (the app works it out)");
+        READY_TAGS.forEach((tag) => add(tag, cap(tag)));
+        (custom || []).forEach((tag) => add(tag, tag));
+        add("__mixed", "Mixed", true);
+        add("__new", "New tag…");
+        select.value = current === "mixed" ? "__mixed" : current || "";
+      }
+      function nameRow(mode) {
+        tagNaming = mode;
+        $("tagnamerow").hidden = mode === null;
+        $("tagok").textContent = mode === "rename" ? "Rename" : "Add";
+        if (mode) {
+          $("tagname").value = mode === "rename" ? currentTag : "";
+          $("tagname").placeholder = mode === "rename" ? "New name for this tag" : "Name the new tag";
+          $("tagname").focus();
+          $("tagname").select();
+        }
+      }
+      function sendTag(type, extra) {
+        ready = false;
+        resetPictures();
+        if (!busy) resetButton();
+        parent.postMessage({ pluginMessage: Object.assign({ type }, extra) }, "*");
+      }
+      $("tagpick").onchange = () => {
+        const value = $("tagpick").value;
+        if (value === "__new") return nameRow("new");
+        nameRow(null);
+        sendTag("tag", { tag: value === "__mixed" ? "" : value });
+      };
+      function commitTagName() {
+        const text = $("tagname").value.trim();
+        const mode = tagNaming;
+        nameRow(null);
+        if (!text) return fillTags(lastCustom, currentTag);
+        if (mode === "rename") sendTag("renameTag", { from: currentTag, to: text });
+        else sendTag("newTag", { tag: text });
+      }
+      $("tagpen").onclick = () => (currentTag && currentTag !== "mixed" ? nameRow("rename") : undefined);
+      $("tagok").onclick = commitTagName;
+      $("tagcancel").onclick = () => {
+        nameRow(null);
+        fillTags(lastCustom, currentTag);
+      };
+      $("tagname").onkeydown = (event) => {
+        if (event.key === "Enter") commitTagName();
+        if (event.key === "Escape") $("tagcancel").onclick();
+      };
+      let lastCustom = [];
+      function showMarks(message) {
+        $("tagpick").disabled = !!message.empty;
+        $("tagpen").disabled = !!message.empty || !message.tag || message.tag === "mixed";
+        currentTag = message.empty ? "" : message.tag || "";
+        lastCustom = message.customTags || [];
+        if (!tagNaming) fillTags(lastCustom, currentTag);
+        const marked = message.marked || { bg: 0, single: 0, image: 0, asset: 0 };
+        let total = 0;
+        for (const key of Object.keys(MARK_LABELS)) {
+          const button = $("mark-" + key);
+          button.disabled = !!message.empty;
+          button.classList.toggle("on", !message.empty && message.mark === key);
+          $("n-" + key).textContent = marked[key] ? " · " + marked[key] : "";
+          total += marked[key] || 0;
+        }
+        $("clearmarks").hidden = total === 0;
+        $("markhint").textContent = total ? plural(total, "marked layer") + " in the selection (sign in the name, removed on import)" : "Select a layer, then press a mark; its name gets a sign (such as [bg]) that is removed on import.";
+      }
+
+
+      // Clean selection: changes the layers in the Figma file, so it asks for a second press (⌘Z undoes it).
+      const cleanBtn = $("clean");
+      let armTimer = null;
+      cleanBtn.onclick = () => {
+        if (!hasSelection) return;
+        if (!cleanBtn.classList.contains("armed")) {
+          cleanBtn.classList.add("armed");
+          cleanBtn.textContent = "Press again to clean (⌘Z undoes)";
+          clearTimeout(armTimer);
+          armTimer = setTimeout(() => { cleanBtn.classList.remove("armed"); cleanBtn.textContent = "Clean selection in Figma"; }, 4000);
+          return;
+        }
+        clearTimeout(armTimer);
+        cleanBtn.classList.remove("armed");
+        cleanBtn.textContent = "Cleaning…";
+        ready = false;
+        resetPictures();
+        parent.postMessage({ pluginMessage: { type: "clean" } }, "*");
+      };
+
+
+      // Cleaning settings: which of the four cleanings the button does (kept between runs).
+      const csKeys = ["names", "round", "hidden", "paints"];
+      const sendCleanSettings = () => {
+        const message = { type: "cleanSettings" };
+        csKeys.forEach((key) => { message[key] = $("cs-" + key).checked; });
+        parent.postMessage({ pluginMessage: message }, "*");
+      };
+      csKeys.forEach((key) => $("cs-" + key).addEventListener("change", sendCleanSettings));
+      // Click the gear to open the settings, click again to fold them.
+      const toggleCleanSettings = () => {
+        const box = $("cleansettings");
+        box.hidden = !box.hidden;
+        const open = !box.hidden;
+        $("cleangear").classList.toggle("on", open);
+        $("cleangear").setAttribute("aria-expanded", String(open));
+        fit();
+      };
+      $("cleangear").onclick = toggleCleanSettings;
+
+
+      // Lottie tab: Analyze reports what in the selection a Lottie file cannot carry, with how to solve it.
+      const showTab = (name) => {
+        const lottie = name === "lottie";
+        $("designTab").hidden = lottie;
+        $("lottieTab").hidden = !lottie;
+        $("tab-design").classList.toggle("on", !lottie);
+        $("tab-lottie").classList.toggle("on", lottie);
+        fit();
+      };
+      $("tab-design").onclick = () => showTab("design");
+      $("tab-lottie").onclick = () => showTab("lottie");
+      $("analyze").onclick = () => {
+        $("analyze").disabled = true;
+        $("analyze").textContent = "Analyzing and measuring…";
+        parent.postMessage({ pluginMessage: { type: "analyzeLottie" } }, "*");
+      };
+      const size1 = (bytes) => (bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(bytes / 1024)) + " KB");
+      const SEV_LABEL = { error: "Will not play", warn: "May look different", info: "Good to know" };
+      function renderReport(message) {
+        const box = $("report");
+        box.replaceChildren();
+        const report = message.report;
+        const real = report.issues.filter((issue) => issue.severity !== "info");
+        const summary = document.createElement("div");
+        if (real.length === 0) {
+          summary.className = "good";
+          summary.textContent = "✓ Nothing found: " + message.title + " (" + plural(report.total, "layer") + ") should export to Lottie.";
+        } else {
+          const errors = real.filter((issue) => issue.severity === "error").length;
+          summary.className = "summary";
+          summary.textContent = plural(real.length, "problem") + (errors ? ", " + errors + " will not play" : "") + " in " + message.title + " (" + plural(report.total, "layer") + ")";
+        }
+        box.appendChild(summary);
+        report.issues.forEach((issue) => {
+          const card = document.createElement("div");
+          card.className = "issue";
+          const head = document.createElement("div");
+          head.className = "head";
+          const dot = document.createElement("span");
+          dot.className = "sev " + issue.severity;
+          dot.title = SEV_LABEL[issue.severity];
+          const title = document.createElement("span");
+          title.textContent = issue.title;
+          const count = document.createElement("span");
+          count.className = "count";
+          count.textContent = SEV_LABEL[issue.severity] + " · " + issue.count + "×";
+          head.append(dot, title, count);
+          const why = document.createElement("div");
+          why.className = "why";
+          why.textContent = issue.why;
+          const fix = document.createElement("div");
+          fix.className = "fix";
+          const bold = document.createElement("b");
+          bold.textContent = "Fix: ";
+          fix.append(bold, document.createTextNode(issue.fix));
+          card.append(head, why, fix);
+          if (issue.asPicture) {
+            const pic = document.createElement("div");
+            pic.className = "why";
+            pic.textContent = "As pictures (no motion): about " + size1(issue.asPicture.bytes1x) + " at 1×, " + size1(issue.asPicture.bytes2x) + " at 2× for " + plural(issue.count, "layer") + ". The app then compresses them without visible loss, usually well below that.";
+            card.appendChild(pic);
+          }
+          if (issue.items.length) {
+            const row = document.createElement("div");
+            row.className = "layers";
+            const all = document.createElement("button");
+            all.className = "selall";
+            all.type = "button";
+            all.textContent = "Select all";
+            all.onclick = () => parent.postMessage({ pluginMessage: { type: "selectNodes", ids: issue.items.map((item) => item.id) } }, "*");
+            row.appendChild(all);
+            // The first twelve names show; "+N more" opens the rest (up to forty), and "Show less" folds them again.
+            const chips = [];
+            const addChip = (item, hidden) => {
+              const chip = document.createElement("button");
+              chip.type = "button";
+              chip.textContent = item.name;
+              chip.title = "Select " + item.name + " in Figma";
+              chip.hidden = hidden;
+              chip.onclick = () => parent.postMessage({ pluginMessage: { type: "selectNodes", ids: [item.id] } }, "*");
+              row.appendChild(chip);
+              return chip;
+            };
+            issue.items.forEach((item, at) => {
+              const chip = addChip(item, at >= 12);
+              if (at >= 12) chips.push(chip);
+            });
+            if (chips.length > 0 || issue.count > issue.items.length) {
+              const toggle = document.createElement("button");
+              toggle.type = "button";
+              toggle.className = "morebtn";
+              const hiddenAfter = issue.count - issue.items.length;
+              const closed = "+" + (issue.count - Math.min(12, issue.items.length)) + " more";
+              toggle.textContent = closed;
+              toggle.title = "Click to expand";
+              let open = false;
+              toggle.onclick = () => {
+                open = !open;
+                chips.forEach((chip) => { chip.hidden = !open; });
+                toggle.textContent = open ? (hiddenAfter > 0 ? "Show less (" + hiddenAfter + " more: Select all)" : "Show less") : closed;
+                toggle.title = open ? "Click to fold" : "Click to expand";
+                fit();
+              };
+              row.appendChild(toggle);
+            }
+            card.appendChild(row);
+          }
+          box.appendChild(card);
+        });
+        fit();
+      }
+
+
+      // File size: the copy as it is, the copy with the effects solved, and the selection as one picture.
+      $("measure").onclick = () => {
+        $("measure").disabled = true;
+        $("measure").textContent = "Measuring…";
+        parent.postMessage({ pluginMessage: { type: "measure" } }, "*");
+      };
+      const bytesText = (bytes) => (bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(bytes / 1024)) + " KB");
+      function showSizes(message) {
+        const line = $("sizeline");
+        line.replaceChildren();
+        const row = (label, value) => {
+          const div = document.createElement("div");
+          const b = document.createElement("b");
+          b.textContent = value;
+          div.append(document.createTextNode(label + " "), b);
+          line.appendChild(div);
+        };
+        row("File now:", "≈ " + bytesText(message.asIs));
+        row(message.withEffects ? "Effects solved:" : "Effects solved: (none to solve)", "≈ " + bytesText(message.solved));
+        row("Issue layers as pictures:", "≈ " + bytesText(message.issuesAsPictures));
+        row("As one picture:", "≈ " + bytesText(message.image1x) + " at 1×, " + bytesText(message.image2x) + " at 2×");
+      }
+
+
+      // Pictures: when the selection holds pictures (picture fills) a switch appears; with it on, the widest a picture may be is set here and
+      // every picture shows its real size and its size at that width, before and after Copy. The copy carries the pictures at that width: wider
+      // ones are made smaller (never enlarged), the file type stays (PNG stays PNG, JPEG and WebP at 92 %), a picture that would not weigh
+      // less stays as it is, and a tiled picture is kept (a tile's size is its pixels).
+      const pics = { json: "", jsonCount: 0, selection: [], urls: new Map(), asked: new Set(), max: 0, token: 0, bitmaps: new Map() };
+      const dataUrlBytes = (url) => Math.floor(((url.length - url.indexOf(",") - 1) * 3) / 4);
+      const mimeOfUrl = (url) => url.slice(5, url.indexOf(";"));
+      const mimeOfBytes = (b) => (b[0] === 0x89 ? "image/png" : b[0] === 0xff ? "image/jpeg" : b[0] === 0x52 ? "image/webp" : b[0] === 0x47 ? "image/gif" : "image/png");
+      async function toBitmap(url) {
+        let bitmap = pics.bitmaps.get(url);
+        if (!bitmap) {
+          bitmap = await createImageBitmap(await (await fetch(url)).blob());
+          pics.bitmaps.set(url, bitmap);
+        }
+        return bitmap;
+      }
+      async function resample(url, width) {
+        const bitmap = await toBitmap(url);
+        const kept = { url, width: bitmap.width, height: bitmap.height, bytes: dataUrlBytes(url) };
+        if (width <= 0 || bitmap.width <= width) return kept;
+        const height = Math.max(1, Math.round((bitmap.height * width) / bitmap.width));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = "high";
+        context.drawImage(bitmap, 0, 0, width, height);
+        const type = mimeOfUrl(url) === "image/jpeg" ? "image/jpeg" : mimeOfUrl(url) === "image/webp" ? "image/webp" : "image/png";
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, type, 0.92));
+        const next = await new Promise((resolve) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.readAsDataURL(blob); });
+        if (next.length >= url.length) return kept;
+        return { url: next, width, height, bytes: dataUrlBytes(next) };
+      }
+      // The pictures of a built copy: each distinct data: picture once, the tiled ones marked.
+      function collectPictures(data) {
+        const found = new Map();
+        const walk = (value, tiled) => {
+          if (typeof value === "string") {
+            if (/^data:image\/(png|jpeg|webp);base64,/.test(value)) {
+              const known = found.get(value) || { url: value, count: 0, tiled: false };
+              known.count += 1;
+              known.tiled = known.tiled || tiled;
+              found.set(value, known);
+            }
+          } else if (Array.isArray(value)) value.forEach((item) => walk(item, tiled));
+          else if (value && typeof value === "object") {
+            const inside = tiled || value.scaleMode === "TILE";
+            for (const key of Object.keys(value)) walk(value[key], inside);
+          }
+        };
+        walk(data, false);
+        return [...found.values()];
+      }
+      function nameOfPicture(data, url) {
+        let name = "";
+        const walk = (value, label) => {
+          if (name || value === null) return;
+          if (typeof value === "string") { if (value === url) name = label; return; }
+          if (Array.isArray(value)) return value.forEach((item) => walk(item, label));
+          if (typeof value === "object") for (const key of Object.keys(value)) walk(value[key], typeof value.name === "string" ? value.name : label);
+        };
+        walk(data, "Picture");
+        return name || "Picture";
+      }
+      function swapPictures(data, map) {
+        const walk = (value) => {
+          if (Array.isArray(value)) return value.forEach(walk);
+          if (!value || typeof value !== "object") return;
+          for (const key of Object.keys(value)) {
+            const item = value[key];
+            if (typeof item === "string" && map.has(item)) {
+              const made = map.get(item);
+              value[key] = made.url;
+              if (key === "src" && typeof value.width === "number" && typeof value.height === "number") { value.width = made.width; value.height = made.height; }
+              if (key === "src" && typeof value.bytes === "number") value.bytes = made.bytes;
+            } else walk(item);
+          }
+        };
+        walk(data);
+      }
+      function paintPictureList(rows, before, after) {
+        const list = $("piclist");
+        list.replaceChildren();
+        rows.sort((a, b) => b.original.bytes - a.original.bytes).forEach((row) => {
+          const li = document.createElement("li");
+          const name = document.createElement("span");
+          name.textContent = row.name + (row.count > 1 ? " ×" + row.count : "") + (row.tiled ? " (tiled: kept)" : "");
+          const was = document.createElement("span");
+          was.textContent = row.original.width + "×" + row.original.height + " · " + bytesText(row.original.bytes);
+          const arrow = document.createElement("span");
+          arrow.textContent = "→";
+          const now = document.createElement("b");
+          now.textContent = row.made.width + "×" + row.made.height + " · " + bytesText(row.made.bytes);
+          li.append(name, was, arrow, now);
+          list.appendChild(li);
+        });
+        const total = $("pictotal");
+        total.replaceChildren();
+        const b1 = document.createElement("b");
+        b1.textContent = bytesText(before);
+        total.append(document.createTextNode(plural(rows.length, "picture") + " now: "), b1);
+        if (after < before) {
+          const b2 = document.createElement("b");
+          b2.textContent = bytesText(after);
+          const save = document.createElement("span");
+          save.className = "save";
+          save.textContent = " (−" + Math.round((1 - after / before) * 100) + "%)";
+          total.append(document.createTextNode(" · at " + pics.max + " px wide: "), b2, save);
+        } else total.append(document.createTextNode(" · none is wider than " + pics.max + " px, so nothing changes"));
+      }
+      // Before Copy: the picture fills of the selection (the plugin sends their bytes when this is on).
+      async function showSelectionPictures(token) {
+        const rows = [];
+        let before = 0;
+        let after = 0;
+        for (const item of pics.selection) {
+          const url = pics.urls.get(item.hash);
+          if (!url) return;
+          const original = await resample(url, 0);
+          const made = await resample(url, pics.max);
+          if (token !== pics.token) return;
+          before += original.bytes * item.count;
+          after += made.bytes * item.count;
+          rows.push({ name: item.name, count: item.count, original, made, tiled: false });
+        }
+        paintPictureList(rows, before, after);
+      }
+      // After Copy: every picture in the built JSON (also the pictures of layers), and the JSON itself is made smaller.
+      async function showPictures(token) {
+        const data = JSON.parse(pics.json);
+        const found = collectPictures(data);
+        pics.jsonCount = found.length;
+        updatePicturesCard();
+        if (found.length === 0) return;
+        const rows = [];
+        const map = new Map();
+        let before = 0;
+        let after = 0;
+        for (const item of found) {
+          const original = await resample(item.url, 0);
+          const made = item.tiled || pics.max <= 0 ? original : await resample(item.url, pics.max);
+          if (token !== pics.token) return;
+          before += original.bytes * item.count;
+          after += made.bytes * item.count;
+          if (made.url !== item.url) map.set(item.url, made);
+          rows.push({ name: nameOfPicture(data, item.url), count: item.count, original, made, tiled: item.tiled });
+        }
+        if ($("picon").checked) paintPictureList(rows, before, after);
+        let text = pics.json;
+        if (map.size > 0) { swapPictures(data, map); text = JSON.stringify(data, null, 2); }
+        full.value = text;
+        preview.value = text.replace(/"(data:image\/[a-z]+;base64,)[A-Za-z0-9+\/=]{80,}"/g, (m, head) => '"' + head + "…" + Math.ceil(m.length / 1024) + ' KB of picture data"');
+        jsonSize = size(text);
+        if (!busy) { copy.textContent = pics.max > 0 ? "Copy at " + pics.max + " px" : "Copy design"; copy.classList.remove("done"); }
+        fit();
+      }
+      function updatePicturesCard() {
+        const count = Math.max(pics.selection.length, pics.jsonCount);
+        $("pics").hidden = count === 0;
+        $("picdesc").textContent = count + (count === 1 ? " picture" : " pictures") + (pics.selection.length > 0 ? " in the selection" : " in the copy");
+        const on = $("picon").checked;
+        $("picbox").hidden = !on || count === 0;
+        fit();
+      }
+      function refreshPictures() {
+        pics.token += 1;
+        const token = pics.token;
+        updatePicturesCard();
+        if (pics.json) return showPictures(token).catch(() => {});
+        if (!$("picon").checked || pics.selection.length === 0) return Promise.resolve();
+        // The pictures' bytes are asked from the plugin once per picture.
+        const missing = pics.selection.filter((item) => !pics.urls.has(item.hash) && !pics.asked.has(item.hash)).map((item) => item.hash);
+        if (missing.length > 0) {
+          missing.forEach((hash) => pics.asked.add(hash));
+          $("pictotal").textContent = "Reading the pictures…";
+          parent.postMessage({ pluginMessage: { type: "pictureBytes", hashes: missing } }, "*");
+          return Promise.resolve();
+        }
+        if (pics.selection.some((item) => !pics.urls.has(item.hash))) return Promise.resolve();
+        return showSelectionPictures(token).catch(() => {});
+      }
+      function resetPictures() {
+        pics.json = "";
+        pics.jsonCount = 0;
+        pics.token += 1;
+        pics.bitmaps = new Map();
+        $("piclist").replaceChildren();
+        $("pictotal").textContent = "";
+        refreshPictures();
+      }
+      function openPictures(json) {
+        pics.json = json;
+        pics.bitmaps = new Map();
+        return refreshPictures();
+      }
+      function setMax(value) {
+        pics.max = Math.max(0, Math.round(Number(value) || 0));
+        refreshPictures();
+      }
+      $("picon").onchange = () => {
+        if ($("picon").checked) {
+          const custom = $("picpreset").value === "custom";
+          setMax(custom ? $("picmax").value : $("picpreset").value);
+        } else {
+          pics.max = 0;
+          refreshPictures();
+        }
+      };
+      $("picpreset").onchange = () => {
+        const custom = $("picpreset").value === "custom";
+        $("picmax").hidden = !custom;
+        if (!custom) setMax($("picpreset").value);
+        else if ($("picmax").value) setMax($("picmax").value);
+      };
+      $("picmax").oninput = () => setMax($("picmax").value);
+      // The plugin's answer: the bytes of the asked pictures.
+      function receivePictureBytes(items) {
+        return Promise.all(items.map((item) => new Promise((resolve) => {
+          const bytes = new Uint8Array(item.bytes);
+          const reader = new FileReader();
+          reader.onload = () => { pics.urls.set(item.hash, reader.result); resolve(); };
+          reader.readAsDataURL(new Blob([bytes], { type: mimeOfBytes(bytes) }));
+        }))).then(() => refreshPictures());
+      }
+
+      window.onmessage = (event) => {
+        const message = event.data && event.data.pluginMessage;
+        if (!message) return;
+        errorBox.hidden = true;
+        if (message.type === "cleanSettings") {
+          csKeys.forEach((key) => { $("cs-" + key).checked = message.settings[key] !== false; });
+          return;
+        }
+        if (message.type === "pictureBytes") { if (message.items) receivePictureBytes(message.items); return; }
+        if (message.type === "sizes") {
+          $("measure").disabled = !hasSelection;
+          $("measure").textContent = "Measure again";
+          resetButton();
+          showSizes(message);
+          fit();
+          return;
+        }
+        if (message.type === "lottie") {
+          $("analyze").disabled = !hasSelection;
+          $("analyze").textContent = "Analyze selection";
+          renderReport(message);
+          return;
+        }
+        if (message.type === "cleaned") {
+          cleanBtn.textContent = "Clean selection in Figma";
+          $("cleanhint").textContent = "Cleaned: " + message.text + ". ⌘Z undoes it.";
+          return;
+        }
+        if (message.type === "error") {
+          cleanBtn.textContent = "Clean selection in Figma";
+          $("analyze").textContent = "Analyze selection";
+          $("analyze").disabled = !hasSelection;
+          errorBox.textContent = message.message;
+          errorBox.hidden = false;
+          busy = false;
+          copy.textContent = "Copy design";
+          copy.disabled = !hasSelection;
+          return;
+        }
+        if (message.type === "selection") {
+          showMarks(message);
+          $("sizes").hidden = !!message.empty;
+          $("measure").disabled = !!message.empty;
+          if (!message.empty) { $("sizeline").replaceChildren(); $("measure").textContent = "Measure file size"; }
+          cleanBtn.disabled = !!message.empty;
+          $("analyze").disabled = !!message.empty;
+          if (message.empty) return showEmpty();
+          hasSelection = true;
+          ready = false;
+          pics.selection = message.images || [];
+          resetPictures();
+          full.value = "";
+          preview.value = PLACEHOLDER;
+          thumb.innerHTML = message.preview ? '<img alt="" src="' + message.preview + '" />' : "◻︎";
+          renderSummary(message, "");
+          if (!busy) resetButton();
+          fit();
+          return;
+        }
+        if (message.type === "building") {
+          busy = true;
+          copy.disabled = true;
+          copy.textContent = message.text;
+          return;
+        }
+        if (message.type === "payload") {
+          full.value = message.json;
+          // The box shows a short preview (long picture data is cut); Copy takes the whole text.
+          preview.value = message.json.replace(/"(data:image\/png;base64,)[A-Za-z0-9+\/=]{80,}"/g, (m, head) => '"' + head + "…" + Math.ceil(m.length / 1024) + ' KB of picture data"');
+          jsonSize = size(message.json);
+          ready = true;
+          openPictures(message.json).then(() => showCopied(tryCopy()));
+        }
+      };
+
+      copy.onclick = () => {
+        if (busy || !hasSelection) return;
+        if (ready) return showCopied(tryCopy());
+        busy = true;
+        copy.disabled = true;
+        copy.textContent = "Preparing a copy…";
+        parent.postMessage({ pluginMessage: { type: "copy" } }, "*");
+      };
+
+      $("toggle").onclick = () => {
+        const open = preview.classList.toggle("open");
+        $("toggle").textContent = open ? "Hide JSON" : "Show JSON";
+        // The plugin window grows to make room for the JSON box and shrinks back.
+        fit();
+      };
+
+      // A different choice means the built JSON no longer matches: it is built again on the next Copy.
+      const sendOptions = () => {
+        ready = false;
+        resetPictures();
+        if (!busy) resetButton();
+        parent.postMessage({ pluginMessage: { type: "options", svg: $("svg").checked, png: $("png").checked, frameSvg: $("frameSvg").checked, fillImages: $("fillImages").checked, textImages: $("textImages").checked, flatten: $("flatten").checked, cleanNames: $("cs-names").checked, roundValues: $("cs-round").checked, dropHidden: $("cs-hidden").checked, issuePictures: $("issuePictures").checked } }, "*");
+      };
+      ["svg", "png", "frameSvg", "fillImages", "textImages", "flatten", "issuePictures"].forEach((id) => ($(id).onchange = sendOptions));
+      ["names", "round", "hidden", "paints"].forEach((key) => $("cs-" + key).addEventListener("change", sendOptions));
+      preview.value = PLACEHOLDER;
+    </script>
+  </body>
+</html>

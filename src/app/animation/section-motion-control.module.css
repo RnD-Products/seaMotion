@@ -1,0 +1,123 @@
+.root {
+  --loop: #4c8dff;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.selectedEditor {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.holdGroup {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.presetNameButton {
+  min-width: 0;
+  justify-content: flex-start;
+}
+
+.grip {
+  display: inline-flex;
+  align-items: center;
+  cursor: grab;
+  opacity: 0.6;
+  touch-action: none;
+}
+
+.grip:hover {
+  opacity: 1;
+}
+
+.row {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 8px;
+}
+
+.layerBody {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.layerHead {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 4px;
+}
+
+.layerHead .actions {
+  flex-wrap: nowrap;
+  gap: 2px;
+}
+
+.layerHead .muted {
+  grid-column: 1 / -1;
+  font-size: 10px;
+}
+
+.muted {
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+}
+
+.cardName {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+
+.nameEdit {
+  min-width: 0;
+}
+
+.pickerRow {
+  display: flex;
+  min-width: 0;
+}
+
+.pickerButton {
+  min-width: 0;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.pickerName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pickerItem {
+  display: flex;
+  min-width: 200px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}

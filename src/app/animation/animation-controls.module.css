@@ -1,0 +1,255 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.item {
+  min-width: 0;
+}
+
+.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.pair {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: 8px;
+}
+
+/* The "Alignment" title above the six icons. */
+.alignGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.alignLabel {
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  opacity: 0.6;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.align {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.alignButton {
+  flex: 1;
+  height: 36px;
+}
+
+.segments {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.segment {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+
+.segmentHeader {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+}
+
+.segmentHeader:hover {
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+
+.segmentName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.segmentTime {
+  min-width: 0;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+.segmentBody {
+  padding: 4px 10px 12px;
+}
+
+.segmentTotal {
+  padding: 2px 10px;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  font-size: 11px;
+  text-align: right;
+}
+
+.segmentHeaderRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.segmentHeaderRow .segmentHeader {
+  flex: 1;
+}
+
+.segmentToggle {
+  display: inline-flex;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.segmentToggle:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+.segment[data-off] .segmentName {
+  opacity: 0.45;
+}
+
+/* What a card animates: the item on the left, where it is in the design on the right. */
+.animated {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+  margin: 0;
+  padding: 6px 0 0;
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  list-style: none;
+}
+
+.animatedRow {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+  line-height: 14px;
+}
+
+.animatedItem {
+  max-width: 55%;
+  flex: 0 0 auto;
+  font-weight: 500;
+}
+
+.animatedWhere {
+  min-width: 0;
+  flex: 1 1 auto;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  text-align: right;
+}
+
+/* Controls split under the layer of the design they change. */
+.layers {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.layer {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.layerHeading {
+  padding-top: 6px;
+  border-top: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* One effect inside a layer's card. */
+.effect {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.effectName {
+  min-width: 0;
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* The hand-built Interaction plan: the name is an editable field in the card's head. */
+.planName {
+  min-width: 0;
+  flex: 1;
+}
+
+.planBody {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+/* The chain between Width and Height: pressed = the two change together. */
+.lockButton {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-self: end;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 50%, transparent);
+  cursor: pointer;
+}
+
+.lockButton:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--foreground);
+}
+
+.lockButton[data-locked="true"] {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  color: var(--foreground);
+}

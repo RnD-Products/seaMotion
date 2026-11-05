@@ -1,0 +1,89 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.row {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.pair {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.locked {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.missing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid color-mix(in oklab, var(--destructive) 40%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--destructive) 8%, transparent);
+}
+
+.picture {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+
+.thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  object-fit: cover;
+}
+
+.field {
+  min-width: 0;
+  gap: 8px;
+}
+
+.paragraph {
+  min-height: 84px;
+  max-height: calc(12lh + 12px);
+  overflow-y: auto;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--muted-foreground);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.infoTitle {
+  color: var(--foreground);
+  font-weight: 500;
+}
+
+/* The video part picked on the timeline (or in its card). */
+.picked {
+  outline: 1px solid var(--foreground);
+  outline-offset: 2px;
+}

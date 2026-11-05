@@ -1,0 +1,30 @@
+/* The corner selector: all four corners, then one icon for each corner. */
+.corners {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  padding: 2px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+}
+
+.segment {
+  display: flex;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.segment:hover {
+  color: var(--foreground);
+}
+
+.segment[data-active="true"] {
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+  color: var(--foreground);
+}

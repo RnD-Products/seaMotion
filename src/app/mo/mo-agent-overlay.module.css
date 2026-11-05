@@ -1,0 +1,201 @@
+.card {
+  position: fixed;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 248px;
+  padding: 18px 18px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  background: rgba(14, 14, 16, 0.74);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(16px);
+  color: #f4f4f5;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: cardIn 260ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* The dark layer over the artboard while the agent works. */
+.scrim {
+  position: fixed;
+  z-index: 39;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  pointer-events: none;
+  animation: scrimIn 260ms ease;
+  transition: opacity 320ms ease;
+}
+
+.scrim[data-leaving] {
+  opacity: 0;
+}
+
+.card[data-leaving] {
+  opacity: 0;
+  transform: translate(-50%, calc(-50% + 6px)) scale(0.98);
+  transition: opacity 320ms ease, transform 320ms ease;
+}
+
+.ring {
+  position: relative;
+  width: 58px;
+  height: 58px;
+}
+
+.progress {
+  display: block;
+  width: 58px;
+  height: 58px;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 4;
+}
+
+.bar {
+  fill: none;
+  stroke: #ff5500;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+.halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 85, 0, 0.28), rgba(255, 85, 0, 0) 70%);
+  animation: breathe 1.6s ease-in-out infinite;
+}
+
+.orbit {
+  position: absolute;
+  inset: 0;
+  animation: spin 1.4s linear infinite;
+}
+
+.orbit::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+.percent {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.check {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+
+.check svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.check path {
+  fill: none;
+  stroke: #ffffff;
+  stroke-dasharray: 26;
+  stroke-dashoffset: 26;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  animation: draw 420ms 120ms ease forwards;
+}
+
+.label {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.message {
+  margin: 0;
+  min-height: 34px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.messageError {
+  margin: 0;
+  min-height: 34px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: #ff8a73;
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-50% + 8px)) scale(0.97);
+  }
+}
+
+@keyframes scrimIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes breathe {
+  50% {
+    opacity: 0.45;
+    transform: scale(1.08);
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .scrim,
+  .halo,
+  .orbit,
+  .check path {
+    animation: none;
+  }
+
+  .check path {
+    stroke-dashoffset: 0;
+  }
+}

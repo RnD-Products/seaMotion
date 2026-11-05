@@ -1,0 +1,39 @@
+.check {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ok,
+.status {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--muted-foreground);
+}
+
+.issue,
+.error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--destructive);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.where {
+  display: block;
+  opacity: 0.8;
+}
+
+.export {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

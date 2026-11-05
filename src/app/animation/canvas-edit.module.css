@@ -1,0 +1,67 @@
+.surface {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  touch-action: none;
+  user-select: none;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.outline {
+  fill: none;
+  stroke: #0d99ff;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.member {
+  fill: none;
+  stroke: #0d99ff;
+  stroke-opacity: 0.55;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hover {
+  fill: rgba(13, 153, 255, 0.06);
+  stroke: #0d99ff;
+  stroke-opacity: 0.7;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.guide {
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.label {
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.handle {
+  pointer-events: all;
+  vector-effect: non-scaling-stroke;
+}
+
+.editor {
+  position: absolute;
+  z-index: 6;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0 2px;
+  border: 1px solid #0d99ff;
+  border-radius: 2px;
+  outline: none;
+  overflow: hidden;
+  resize: none;
+  user-select: text;
+}

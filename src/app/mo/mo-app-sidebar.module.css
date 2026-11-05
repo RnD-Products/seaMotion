@@ -1,0 +1,404 @@
+/* Placement only: the panel itself is the kit's Panel, so its surface, header and sections match the inspector. */
+.dock {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  z-index: 30;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
+/* The slim icon rail on the left edge (Home, Layers, Assets), before the panel. */
+.rail {
+  display: flex;
+  width: 40px;
+  /* Fills down to the bottom of the window, like the panel beside it; the icons stay at the top. */
+  height: calc(100vh - 10px);
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  /* A stroke along the top and the left edge, turning the top-left corner; the panel's left border is the one line between rail and panel. */
+  border-width: 1px 0 0 1px;
+  border-radius: 8px 0 0 0;
+}
+
+/* A thin line under Home, inset from the rail's left and right edges. */
+.railDivider {
+  display: block;
+  height: 1px;
+  flex: none;
+  align-self: stretch;
+  margin: 2px 6px;
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+}
+
+/* The panel the rail shows. */
+.column {
+  display: flex;
+  height: calc(100vh - 10px);
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tabs {
+  width: var(--mo-layers-width, 248px);
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.tabsRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+/* The home button has its own filled background, like the tab selector beside it. */
+.homeButton {
+  background: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+.homeButton:hover {
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+.tabsGrow {
+  min-width: 0;
+  flex: 1;
+}
+
+/* Square on the rail side, rounded on the outer (right) side. */
+.panel,
+.projectsPanel {
+  /* The same inside line as the rail's, so both tops match. */
+  box-shadow: inset 0 1px 0 color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-top-width: 0;
+  border-bottom-width: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.panel {
+  width: 248px;
+  min-height: 0;
+  flex: 1;
+  /* The Layers panel fills down to the bottom of the window (the kit stops it 10 px short). */
+  height: calc(100vh - 10px) !important;
+  max-height: calc(100vh - 10px) !important;
+}
+
+.path {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recentList {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.recentRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  border-radius: 8px;
+}
+
+.recentRow:hover,
+.recentRowActive {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.recentOpen {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+}
+
+.recentName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recentDuplicate {
+  flex-shrink: 0;
+}
+
+.recentDelete {
+  flex-shrink: 0;
+}
+
+.savedList {
+  display: flex;
+  max-height: 340px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+  overflow-y: auto;
+}
+
+.savedRow {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  border-radius: 8px;
+}
+
+.savedRow:hover {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.savedItem {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.savedItem:hover {
+  background: transparent;
+}
+
+.savedAction {
+  flex-shrink: 0;
+}
+
+.savedMeta {
+  flex-shrink: 0;
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.folderRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.folderMenu {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.folderButtons {
+  display: flex;
+  gap: 6px;
+}
+
+.pasteBox {
+  width: 100%;
+  min-width: 0;
+  resize: vertical;
+  padding: 6px 8px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+  color: var(--foreground);
+  font: 11px/1.4 ui-monospace, Menlo, monospace;
+}
+
+.pasteBox::placeholder {
+  color: var(--muted-foreground);
+}
+
+/* Attention dot on "Folder settings" while the save folder does not exist. */
+.folderAlert {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  border-radius: 999px;
+  background: #ff5a4d;
+}
+
+.folderAlert::after {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  content: "";
+  animation: folderAlertPulse 1.4s ease-out infinite;
+}
+
+@keyframes folderAlertPulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale(3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folderAlert::after {
+    animation: none;
+  }
+}
+
+/* Steady green dot on "Folder settings" while the save folder exists. */
+.folderOk {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-left: 2px;
+  border-radius: 999px;
+  background: #34c759;
+}
+
+/* Projects panel width follows the wrapper; the resizer sits on its right edge like the Layers panel. */
+.projectsWrap {
+  position: relative;
+}
+
+.projectsPanel {
+  width: 100%;
+  /* Never taller than the window (tabs above, 10 px at the top only): a long Recent list scrolls instead of running off the bottom. */
+  max-height: calc(100vh - 10px);
+  overflow-y: auto;
+}
+
+/* Open, the panel fills down to the bottom of the window like the Layers panel; hidden (header only), it is just the header. */
+.projectsPanel:has(> [data-slot="scroll-fade"]) {
+  height: calc(100vh - 10px);
+}
+
+.resizer {
+  position: absolute;
+  top: 0;
+  right: -6px;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  width: 12px;
+  align-items: center;
+  justify-content: center;
+  cursor: ew-resize;
+  touch-action: none;
+  user-select: none;
+}
+
+.resizerGrip {
+  width: 1px;
+  height: 32px;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--foreground) 24%, transparent);
+  transition: background-color 0.15s;
+}
+
+.resizer:hover .resizerGrip,
+.resizer:focus-visible .resizerGrip {
+  background: var(--foreground);
+}
+
+/* The Open page: a page of its own over the whole app, not a dialog. */
+.homePage {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow-y: auto;
+  background: var(--background, #111);
+  color: var(--foreground);
+}
+
+.homeBody {
+  display: flex;
+  width: min(720px, 100%);
+  flex-direction: column;
+  gap: 20px;
+  padding: 56px 24px 32px;
+}
+
+.homeHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.homeTitle {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.homeSub {
+  margin: 4px 0 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+/* The buttons sit right under the list. */
+.homeActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.homeActionsEnd {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* While the Open page is shown the dock sits above the timeline and the canvas controls (z-index 70). */
+.dockHome {
+  z-index: 75;
+}
+
+.homeConfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  font-size: 12px;
+}
+
+.homeList {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.backButton {
+  width: 100%;
+  justify-content: flex-start;
+}

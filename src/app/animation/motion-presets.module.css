@@ -1,0 +1,42 @@
+.root {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+}
+
+.card.on {
+  border-color: var(--primary, #4d8bff);
+}
+
+.name {
+  color: var(--foreground);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.note {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.actions > button:first-child {
+  flex: 1;
+}

@@ -1,0 +1,130 @@
+.menu {
+  position: fixed;
+  /* Above everything in the app (the timeline, the toolbar and the open page are all below 100). */
+  z-index: 120;
+  display: flex;
+  min-width: 168px;
+  max-width: 260px;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid color-mix(in oklab, var(--foreground) 12%, transparent);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--popover) 98%, transparent);
+  color: var(--popover-foreground);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.28);
+  font-size: 12px;
+}
+
+.item {
+  display: flex;
+  min-height: 28px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-visible {
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+  outline: none;
+}
+
+.item:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.label {
+  padding: 4px 8px 2px;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  font-size: 11px;
+}
+
+.error {
+  padding: 4px 8px;
+  color: var(--destructive);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+/* Off-screen box that holds the focus while waiting for Cmd+V. */
+.catcher {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+  resize: none;
+}
+
+.divider {
+  height: 1px;
+  margin: 4px 2px;
+  background: color-mix(in oklab, var(--foreground) 10%, transparent);
+}
+
+/* The caret at the end of "Add to Group", turning down while its list of groups is open. */
+.caret,
+.caretOpen {
+  margin-left: auto;
+  opacity: 0.6;
+}
+
+.caretOpen {
+  transform: rotate(90deg);
+}
+
+/* A group in the "Add to Group" list, indented under it. */
+.subItem {
+  padding-left: 30px;
+}
+
+.subName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The Edit | Arrange | Motion switch under the layer's name. */
+.tabs {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  margin-bottom: 2px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--foreground) 6%, transparent);
+}
+
+.tab,
+.tabOn {
+  flex: 1;
+  height: 24px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.tab:hover {
+  color: var(--foreground);
+}
+
+.tabOn {
+  background: color-mix(in oklab, var(--foreground) 12%, transparent);
+  color: var(--foreground);
+}

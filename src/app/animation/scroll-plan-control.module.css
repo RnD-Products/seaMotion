@@ -1,0 +1,480 @@
+.root {
+  --loop: #4c8dff;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.settingsGroup,
+.settingsBody {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.settingsGroup {
+  gap: 8px;
+}
+
+.settingsToggle {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.settingsCaretClosed {
+  transform: rotate(-90deg);
+}
+
+.settingsBody {
+  gap: 12px;
+  padding-inline-start: 8px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.emptyTitle {
+  color: var(--foreground);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--foreground);
+  font-size: 12px;
+}
+
+.muted {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.stack {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardRow {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 8px;
+}
+
+/* The Interaction plan (segments and layers) shows no time rail beside its cards; the timeline below the artboard has the times. */
+.cardRow[data-section-card],
+.cardRow[data-layer-card] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.cardRow[data-section-card] > .rail,
+.cardRow[data-layer-card] > .rail {
+  display: none;
+}
+
+.rail {
+  position: relative;
+  cursor: crosshair;
+  user-select: none;
+}
+
+.railLine {
+  position: absolute;
+  top: 14px;
+  bottom: -22px;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+.railLineLast {
+  display: none;
+}
+
+/* The picked-segment stroke: shows on hover and stays while the segment loops. */
+.segment {
+  position: absolute;
+  top: 14px;
+  bottom: -22px;
+  left: calc(50% - 2px);
+  width: 4px;
+  border-radius: 4px;
+  background: var(--loop);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmentLast {
+  bottom: 0;
+}
+
+.pickLast {
+  bottom: 0;
+}
+
+/* The line is the segment's button; the space beside it plays from a point. */
+/* Exactly the hovered stroke's own width (4px): no extra reach around it. */
+.pick {
+  position: absolute;
+  top: 24px;
+  bottom: -12px;
+  left: calc(50% - 2px);
+  z-index: 1;
+  width: 4px;
+  cursor: pointer;
+}
+
+/* The idle line is 2px; hovering shows the 4px blue stroke that can be clicked; picking it adds the glow and the end ticks. */
+.pick:hover ~ .segment:not(.segmentOn) {
+  opacity: 1;
+}
+
+.segmentOn {
+  opacity: 1;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--loop) 25%, transparent);
+}
+
+.segmentOn::before,
+.segmentOn::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: var(--loop);
+}
+
+.segmentOn::before {
+  top: 0;
+}
+
+.segmentOn::after {
+  bottom: 0;
+}
+
+.cardLooped .railDot {
+  border-color: var(--loop);
+}
+
+.railDot {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  display: flex;
+  width: 20px;
+  height: 20px;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  border: 1px solid color-mix(in oklab, var(--foreground) 35%, transparent);
+  border-radius: 999px;
+  background: var(--background, #111);
+  color: var(--foreground);
+  font-size: 9px;
+  line-height: 1;
+  transition: none;
+}
+
+.mark {
+  position: absolute;
+  z-index: 3;
+  right: -3px;
+  left: -3px;
+  height: 2px;
+  transform: translateY(-1px);
+  border-radius: 2px;
+  background: var(--primary, #5b5bf0);
+  cursor: ns-resize;
+  touch-action: none;
+}
+
+/* A taller grab area around the 2px mark, and a small knob so it reads as a handle. */
+.mark::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  right: 0;
+  bottom: -7px;
+  left: 0;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: var(--primary, #5b5bf0);
+  box-shadow: 0 0 0 2px var(--background, #111);
+}
+
+.markDragging::after {
+  width: 11px;
+  height: 11px;
+}
+
+.pin {
+  position: absolute;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  margin-left: 8px;
+  transform: translateY(-50%) rotate(45deg);
+  background: #f59e0b;
+}
+
+.card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--foreground) 4%, transparent);
+  cursor: pointer;
+}
+
+.cardRow:hover .card {
+  border-color: color-mix(in oklab, var(--foreground) 22%, transparent);
+  background: color-mix(in oklab, var(--foreground) 7%, transparent);
+}
+
+.cardRow:hover .railDot {
+  border-color: var(--foreground);
+}
+
+.cardActive .railDot {
+  background: color-mix(in oklab, var(--primary, #5b5bf0) 55%, var(--background, #111));
+  border-color: var(--primary, #5b5bf0);
+}
+
+.cardSelected .card {
+  border-color: var(--primary, #5b5bf0);
+  background: color-mix(in oklab, var(--primary, #5b5bf0) 10%, transparent);
+  box-shadow: 0 0 0 1px var(--primary, #5b5bf0);
+}
+
+.cardSelected .railDot {
+  background: var(--primary, #5b5bf0);
+  border-color: var(--primary, #5b5bf0);
+  color: var(--primary-foreground, #fff);
+}
+
+.rowHead {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rowName {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.fields2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.percent {
+  color: var(--muted-foreground);
+  font-size: 10px;
+}
+
+.curveInput {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.easing,
+.stepEasing {
+  display: flex;
+  min-width: 0;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.easingSelect {
+  min-width: 0;
+  flex: 1;
+}
+
+.curve {
+  width: 28px;
+  height: 24px;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+  color: var(--primary, #5b5bf0);
+}
+
+.ghost {
+  position: absolute;
+  right: -3px;
+  left: -3px;
+  z-index: 2;
+  height: 0;
+  border-top: 2px dashed color-mix(in oklab, var(--primary, #5b5bf0) 70%, transparent);
+  pointer-events: none;
+}
+
+.ghostLabel {
+  position: absolute;
+  top: -8px;
+  left: 44px;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: var(--popover, #1a1a1a);
+  color: var(--foreground);
+  font-size: 9px;
+  line-height: 14px;
+  white-space: nowrap;
+}
+
+.nameEdit {
+  min-width: 0;
+  flex: 1;
+}
+
+.colorRow {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+.colorLabel {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.second {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+
+.notice {
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--loop) 16%, transparent);
+  color: var(--foreground);
+  font-size: 11px;
+}
+
+.startPart {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--foreground) 5%, transparent);
+}
+
+.addSecond {
+  align-self: flex-start;
+  height: 22px;
+  padding: 0 8px;
+  font-size: 12px;
+}
+
+.grip {
+  display: inline-flex;
+  align-items: center;
+  cursor: grab;
+  touch-action: none;
+  opacity: 0.55;
+}
+
+.grip:hover {
+  opacity: 1;
+}
+
+/* While the playhead mark is dragged the strokes under the pointer are not hover or click targets. */
+.stack[data-mark-drag] .pick {
+  pointer-events: none;
+}
+
+.stack[data-mark-drag] .segment {
+  opacity: 0;
+}
+
+.stack[data-mark-drag] .segmentOn {
+  opacity: 1;
+}
+
+/* Motion blur: the amount and the preview switch side by side. */
+.blur {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: end;
+  gap: 8px;
+}
+
+/* "Hold after animation": the section animation a step waits for, with what that adds. */
+.waitRow {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* A card name that also folds the card on a click. */
+.rowNameToggle {
+  cursor: pointer;
+}
+
+/* A folded step card: the name gets its own line, the start time, hold and buttons sit under it. */
+.rowHeadFolded {
+  flex-wrap: wrap;
+  row-gap: 2px;
+}
+
+.rowHeadFolded .rowName {
+  flex: 1 1 100%;
+}
+
+.rowHeadFolded .muted {
+  flex: 1 1 auto;
+  white-space: nowrap;
+}

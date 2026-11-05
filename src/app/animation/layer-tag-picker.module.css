@@ -1,0 +1,36 @@
+/* The Tag picker with a pen beside it: the pen turns the picker into a name field in place. */
+.row {
+  display: flex;
+  /* The Select draws its "Tag" label above the box, so the pen lines up with the bottom of the box, not the middle of the row. */
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.grow {
+  min-width: 0;
+  flex: 1;
+}
+
+.pen {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  cursor: pointer;
+}
+
+.pen:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--foreground);
+}
+
+.pen:disabled {
+  cursor: default;
+  opacity: 0.4;
+}

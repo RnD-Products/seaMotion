@@ -1,0 +1,56 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 76px 28px;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Same dim as the other labels of the panel: their colour is 60% and their text another 60% on top. */
+.label {
+  color: color-mix(in oklab, var(--foreground) 60%, transparent);
+  opacity: 0.6;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Top left and top right on the first row, bottom left and bottom right under them, each with its corner beside it. */
+.grid {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: 8px;
+}
+
+.corner {
+  justify-self: center;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+}
+
+.toggle {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: color-mix(in oklab, var(--foreground) 55%, transparent);
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  color: var(--foreground);
+}
+
+.toggle[data-on="true"] {
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  color: var(--foreground);
+}
