@@ -46,8 +46,15 @@ export type SavedProjectFile = Readonly<{ modified: number; name: string; size: 
 
 // The project files in the auto-save folder, newest first.
 export async function listSavedProjects(source: "projects" | "recovered" = "projects"): Promise<readonly SavedProjectFile[]> {
-  const response = await fetch(`${AUTOSAVE_URL}/list${source === "recovered" ? "?dir=recovered" : ""}`);
-  if (!response.ok) throw new Error("Auto-save helper unavailable.");
+  let response: Response | null = null;
+  try {
+    response = await fetch(`${AUTOSAVE_URL}/list${source === "recovered" ? "?dir=recovered" : ""}`);
+  } catch {
+    response = null;
+  }
+  // Hosted site (no helper): the projects published with the build (scripts/publish-projects.mjs).
+  if (!response?.ok && source === "projects") response = await fetch("/projects/index.json");
+  if (!response?.ok) throw new Error("Auto-save helper unavailable.");
   const body = (await response.json()) as { items?: unknown };
   if (!Array.isArray(body.items)) return [];
   return body.items.filter(
@@ -57,8 +64,18 @@ export async function listSavedProjects(source: "projects" | "recovered" = "proj
 }
 
 export async function readSavedProject(name: string, source: "projects" | "recovered" = "projects"): Promise<string> {
-  const response = await fetch(`${AUTOSAVE_URL}/file?name=${encodeURIComponent(name)}${source === "recovered" ? "&dir=recovered" : ""}`);
-  if (!response.ok) throw new Error("Could not read that saved project.");
+  let response: Response | null = null;
+  try {
+    response = await fetch(`${AUTOSAVE_URL}/file?name=${encodeURIComponent(name)}${source === "recovered" ? "&dir=recovered" : ""}`);
+  } catch {
+    response = null;
+  }
+  if (!response?.ok && source === "projects") {
+    const published = await fetch(`/projects/${encodeURIComponent(name)}`);
+    if (!published.ok) throw new Error("Could not read that saved project.");
+    return published.text();
+  }
+  if (!response?.ok) throw new Error("Could not read that saved project.");
   const body = (await response.json()) as { text?: unknown };
   if (typeof body.text !== "string") throw new Error("Could not read that saved project.");
   return body.text;
