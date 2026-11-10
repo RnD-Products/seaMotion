@@ -3,6 +3,9 @@
 seaMotion is a browser-based motion design editor. Build a design from layers, set how it moves on a timeline,
 preview it, and export it as animation.
 
+Built on [Toolcraft](seaMotion/NOTICE.md) by Pixel Point: seaMotion started from the Toolcraft app starter and
+keeps its runtime, under the MIT License (see `seaMotion/LICENSE.md` and `seaMotion/NOTICE.md`).
+
 **Live site:** https://editor-seamotion.vercel.app (opens a set of example projects, read-only)
 
 ## What is in this repo
