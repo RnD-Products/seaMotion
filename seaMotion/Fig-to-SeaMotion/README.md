@@ -1,4 +1,20 @@
-# seaMotion (Figma plugin)
+# Fig to SeaMotion (Figma plugin)
+
+Fig to SeaMotion copies your Figma layers as JSON that you paste into [seaMotion](https://editor-seamotion.vercel.app),
+a browser-based motion design editor ([source](https://github.com/RnD-Products/seaMotion)). Select layers in Figma, press
+**Copy**, then use **Import** in seaMotion.
+
+## Install (any computer, any Figma account)
+1. Download **Fig-to-SeaMotion.zip** from the [latest release](https://github.com/RnD-Products/Fig-to-SeaMotion/releases/latest) and unzip it.
+2. In the Figma **desktop app** (Mac or Windows): **Plugins ▸ Development ▸ Import plugin from manifest...** and pick `manifest.json`.
+3. Run it from **Plugins ▸ Development ▸ Fig to SeaMotion**. It follows the selection.
+
+It works with any Figma account: the plugin has no network access, no account lookups and no file paths, and nothing
+leaves Figma except what you paste. Development plugins load only in the Figma desktop app, not in Figma in a browser.
+
+Built on [Toolcraft](https://toolcraft.sh) by Pixel Point, under the MIT License (see `LICENSE.md`).
+
+## What it copies
 
 Select layers in Figma, open the plugin, press **Copy**. The JSON holds, per layer: size and position, auto layout,
 fills (solid and gradient stops), strokes, corner radius, effects (drop shadow, inner shadow, layer blur, background blur and glass, with all their values), blend mode, opacity, text
@@ -62,13 +78,6 @@ Under the selection card, **Measure file size** shows three numbers for the sele
 **Import layers with issues as pictures** (a switch at the top of the tab): every layer with something a Lottie file cannot carry (effects, blend modes, boolean shapes, angular or diamond gradients, inside or outside strokes, corner smoothing) is copied as one picture layer, as if marked Single; texts stay text. Your Figma file is not changed.
 
 The window has two tabs, **Design** (copy) and **Lottie**. In **Lottie**, select a frame and press **Analyze selection**: the report lists what a Lottie file cannot carry or carries badly, with why and how to fix each, and the layers involved (click a name, or **Select all**, to select them in Figma). Nothing in your file changes. It checks: live text (outline it), effects (blur, shadows, glass), blend modes, luminance masks, picture and video fills, angular and diamond gradients, inside and outside strokes, arrow heads, different stroke weights per side, boolean shapes, corner smoothing, very detailed paths, hidden layers and very large layer counts. These match the checks the app makes on a Lottie project. For each problem it also measures what those layers would weigh as plain pictures (no motion), at 1× and 2×, from real exports of a few of them.
-
-## Load it
-1. Figma desktop app: **Plugins ▸ Development ▸ Import plugin from manifest…**
-2. Choose `manifest.json` in this folder.
-3. Run it from **Plugins ▸ Development ▸ seaMotion**. It follows the selection.
-
-No network access; nothing leaves Figma except what you paste.
 
 ## The window
 A summary card (picture of the selection, name, size, layer count and what it holds: texts, icons, picture fills, effects), four switches for what to copy, one **Copy design** button, and **Show JSON** to see the text (the window grows to fit it). Nothing is copied until you press the button.
