@@ -62,3 +62,7 @@ On the hosted site edits are not saved; saving needs `npm run dev`.
 
 A project is one `.json` file (format `mo-app-project`). Open one from the Open project page, or choose
 **Browse files...** to load one from disk.
+
+## Hosting notes
+
+Vercel builds this repo with Root Directory set to `seaMotion`. The example projects on the live site come from `Recovered/`, which is published when you deploy from your computer.
