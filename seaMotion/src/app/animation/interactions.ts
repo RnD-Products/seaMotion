@@ -68,7 +68,7 @@ export function createInteraction(type: InteractionType, overrides: Partial<Inte
     loading: "spinner",
     size: 56,
     start: 0,
-    text: "Hello Mo_App",
+    text: "Hello seaMotion",
     toX: 60,
     toY: 60,
     type,

@@ -1,4 +1,4 @@
-// Presets kept for every project, by the auto-save helper (~/Documents/Mo_App/Presets/<kind>/<name>.json).
+// Presets kept for every project, by the auto-save helper (~/Documents/seaMotion/Presets/<kind>/<name>.json).
 const AUTOSAVE_URL = "http://127.0.0.1:3011";
 
 export type Preset = Readonly<{ name: string; savedAt: number; values: Readonly<Record<string, unknown>> }>;

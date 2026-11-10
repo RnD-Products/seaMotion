@@ -15,7 +15,7 @@ overlap (lead), the layers and the plans are read from the newest autosave. Run 
 import copy, json, os, sys, time
 
 HOME = os.path.expanduser("~")
-SRC = os.path.join(HOME, "Documents/Mo_App/Recovered/Cargora - Logistic Dashboard.json")
+SRC = os.path.join(HOME, "Documents/seaMotion/Recovered/Cargora - Logistic Dashboard.json")
 PROJECT = "Cargora - Logistic Dashboard"
 OUT = next((a for a in sys.argv[1:] if not a.startswith("--")), "cargora-reactor.json")
 SCENE = "scene-1"        # Motion In
@@ -116,7 +116,7 @@ marks = []
 for n, (kind, a, b, dur, hold) in enumerate(steps):
     items.append({
         "color": "#FFFFFF", "device": "desktop", "direction": "out", "duration": dur, "hold": hold, "id": "it-cargora-%02d" % (n + 1),
-        "linked": n > 0, "loading": "spinner", "size": 40, "start": round(at, 3), "text": "Hello Mo_App", "toX": b[0], "toY": b[1],
+        "linked": n > 0, "loading": "spinner", "size": 40, "start": round(at, 3), "text": "Hello seaMotion", "toX": b[0], "toY": b[1],
         "type": kind, "x": a[0], "y": a[1],
     })
     marks.append((round(at, 3), round(at + dur + hold, 3)))

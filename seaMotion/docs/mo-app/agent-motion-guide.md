@@ -1,6 +1,6 @@
-# Mo_App motion guide for AI agents
+# seaMotion motion guide for AI agents
 
-Read this before you build, change or explain motion in Mo_App. It describes how motion works in
+Read this before you build, change or explain motion in seaMotion. It describes how motion works in
 this app, the words the user uses, and the traps that already cost time. The framework rules in
 `AGENTS.md` and `docs/toolcraft/*` still apply (never edit `src/toolcraft`, keep
 `docs/toolcraft/agent-worklog.md` current, one worklog entry per change).
@@ -9,9 +9,9 @@ this app, the words the user uses, and the traps that already cost time. The fra
 
 A project is one design plus how it moves. Each project has its own animation, layers, canvas size,
 frame settings, kit items, mockup and Scroll plan. Projects are saved as `.json` files by the
-auto-save helper into `~/Documents/Mo_App/Recovered/` (format `mo-app-project`, version 2). The
+auto-save helper into `~/Documents/seaMotion/Recovered/` (format `mo-app-project`, version 2). The
 finished page assets and tools for the BaseCase page are in
-`~/Documents/Mo_App/Projects/BaseCase Landingpage Motion/`.
+`~/Documents/seaMotion/Projects/BaseCase Landingpage Motion/`.
 
 Motion types (Motion tab > Motion Type, stored per project as `motion.type`):
 
@@ -174,7 +174,7 @@ button then reads Export (relabelled in `mo-inspector-labels.ts`). The red list 
 what to do. Add a check there whenever you find another feature a player cannot draw.
 
 **How a Lottie project starts.** Open a Lottie `.json` with Open project › Browse files (or put it in
-`~/Documents/Mo_App/Recovered/` and pick it from the list): `parseProjectFile` sees a Bodymovin file and
+`~/Documents/seaMotion/Recovered/` and pick it from the list): `parseProjectFile` sees a Bodymovin file and
 `buildProjectFromLottie` makes the project (canvas = `w`×`h`, timeline = `(op - ip) / fr`, frame fill off).
 To build a new animation, write the Lottie JSON yourself, save it as a `.json` there and open it. To change an
 open one, follow the "do not edit a file while it is open" trap in section 5 and bump `spec.version`.
@@ -326,7 +326,7 @@ own seconds. Do not draw the icon or cursor in the design's motion script or as 
 - **Change an open project through the agent channel (section 5b), never by editing its file.** Autosave writes the
   open project over its file every 10 s, so a file edit is lost; and do not switch away, delete and re-open it (the
   user sees the app jump around and loses edits made meanwhile). For a project that is not open: Switch to
-  another project, edit the file in `~/Documents/Mo_App/Recovered/`, delete the in-app copy (trash in the
+  another project, edit the file in `~/Documents/seaMotion/Recovered/`, delete the in-app copy (trash in the
   Projects tab), then open the file from Open project. The helper (`scripts/project-autosave.mjs`, port
   3011) must be running (`npm run dev` starts it).
 - The browser pane is shared with the user, who often clicks at the same time. If a test result looks
@@ -359,7 +359,7 @@ to the project the user has open:
 2. Build the result as JSON: `{ "project": "<open project name>", "animation": <full spec, version + 1>,
    "params": {...}, "values": {...}, "layers": [...], "durationSeconds": 11.2, "version": "v_03" }` (every field but
    `project` is optional; `values` cannot touch the project list, versions or library; `layers` replaces the Layers
-   panel list when it differs). Start from the project's latest autosave in `~/Documents/Mo_App/Recovered/`.
+   panel list when it differs). Start from the project's latest autosave in `~/Documents/seaMotion/Recovered/`.
 3. `node scripts/mo-agent.mjs apply <file.json>`. The app applies it to the open project in place (same project, no
    navigation), saves the result as a new version (the given name, else the next `v_NN`) and makes it active; the card
    ends with "Done · Saved as version v_03" and the channel clears. Check the result in the app afterwards.

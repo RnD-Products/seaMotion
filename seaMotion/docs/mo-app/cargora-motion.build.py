@@ -5,14 +5,14 @@ Scenes (11 s): Start 1.5 s, Logo animation 2.5 s, Motion In 6 s, End 1 s. Every 
 (segments + animations), so it shows in the Motion tab and in the timeline's Layer effects lane. The logo splash (a background, the
 Cargora mark with its cube drawn by Trim path, and the text) is added to the design as a group inside the Cargora - Logistic Dashboard frame, on top of its other layers.
 
-    python3 cargora-motion.build.py [out.json]       # reads the newest autosave in ~/Documents/Mo_App/Recovered
+    python3 cargora-motion.build.py [out.json]       # reads the newest autosave in ~/Documents/seaMotion/Recovered
     node scripts/mo-agent.mjs apply out.json
 """
 import base64, copy, json, os, re, sys
 
 HOME = os.path.expanduser("~")
-SRC = os.path.join(HOME, "Documents/Mo_App/Recovered/Cargora - Logistic Dashboard.json")
-FONT = os.path.join(HOME, "Documents/Mo_App/Fonts/Geist-SemiBold.ttf")
+SRC = os.path.join(HOME, "Documents/seaMotion/Recovered/Cargora - Logistic Dashboard.json")
+FONT = os.path.join(HOME, "Documents/seaMotion/Fonts/Geist-SemiBold.ttf")
 PROJECT = "Cargora - Logistic Dashboard"
 
 SCENE_SECONDS = [("scene-start", "Start", 1.5), ("scene-logo", "Logo animation", 2.5), ("scene-1", "Motion In", 6.0), ("scene-end", "End", 1.0)]
