@@ -66,9 +66,15 @@ The window has two tabs, **Design** (copy) and **Lottie**. In **Lottie**, select
 ## Load it
 1. Figma desktop app: **Plugins ▸ Development ▸ Import plugin from manifest…**
 2. Choose `manifest.json` in this folder.
-3. Run it from **Plugins ▸ Development ▸ seaMotion**. It follows the selection.
+3. Run it from **Plugins ▸ Development ▸ Fig to SeaMotion**. It follows the selection.
 
 No network access; nothing leaves Figma except what you paste.
+
+**Any computer, any account:** the plugin has no ties to one machine or Figma account (no account lookups, no file paths, no
+network). Anyone can load it on Mac or Windows with the Figma desktop app, using their own account, by importing
+`manifest.json` as above (development plugins load only in the desktop app, not in Figma in the browser). To let people
+install it without importing files, publish it to the Figma Community: **Plugins ▸ Development ▸ Manage plugins in
+development ▸ Publish**; Figma then issues the plugin its own id.
 
 ## The window
 A summary card (picture of the selection, name, size, layer count and what it holds: texts, icons, picture fills, effects), four switches for what to copy, one **Copy design** button, and **Show JSON** to see the text (the window grows to fit it). Nothing is copied until you press the button.
