@@ -5,11 +5,14 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const source = path.resolve(root, "..", "Recovered");
+// Your newest autosaves (../Recovered) when they exist; otherwise the example projects kept in the repo, so builds
+// that only have the repo (GitHub deploys) still publish them.
+const recovered = path.resolve(root, "..", "Recovered");
+const source = fs.existsSync(recovered) ? recovered : path.join(root, "example-projects");
 const target = path.join(root, "public", "projects");
 
 if (!fs.existsSync(source)) {
-  console.log("[publish-projects] no ../Recovered folder, skipping");
+  console.log("[publish-projects] no ../Recovered or example-projects folder, skipping");
   process.exit(0);
 }
 fs.rmSync(target, { force: true, recursive: true });

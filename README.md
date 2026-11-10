@@ -65,4 +65,4 @@ A project is one `.json` file (format `mo-app-project`). Open one from the Open 
 
 ## Hosting notes
 
-Vercel builds this repo with Root Directory set to `seaMotion`. The example projects on the live site come from `Recovered/`, which is published when you deploy from your computer.
+Vercel builds this repo with Root Directory set to `seaMotion`. The example projects on the live site come from `Recovered/` when you deploy from your computer, and from `seaMotion/example-projects/` (kept in the repo) when Vercel builds from GitHub.
