@@ -53,7 +53,7 @@ export async function listSavedProjects(source: "projects" | "recovered" = "proj
     response = null;
   }
   // Hosted site (no helper): the projects published with the build (scripts/publish-projects.mjs).
-  if (!response?.ok && source === "projects") response = await fetch("/projects/index.json");
+  if (!response?.ok) response = await fetch("/projects/index.json");
   if (!response?.ok) throw new Error("Auto-save helper unavailable.");
   const body = (await response.json()) as { items?: unknown };
   if (!Array.isArray(body.items)) return [];
@@ -70,7 +70,7 @@ export async function readSavedProject(name: string, source: "projects" | "recov
   } catch {
     response = null;
   }
-  if (!response?.ok && source === "projects") {
+  if (!response?.ok) {
     const published = await fetch(`/projects/${encodeURIComponent(name)}`);
     if (!published.ok) throw new Error("Could not read that saved project.");
     return published.text();
