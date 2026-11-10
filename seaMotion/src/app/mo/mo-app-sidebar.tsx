@@ -667,6 +667,7 @@ export function MoAppSidebar(): React.JSX.Element {
   const showOpenDialog = (): void => setView("home");
   // Until a project is opened from the Open page, none is held open behind it: the app starts with no current project.
   // After a reload inside a project the project is kept.
+  const deepLinkPending = React.useRef(new URLSearchParams(window.location.search).has("project"));
   const leftHome = React.useRef(view === "project" || readEntered());
   const enterProject = (): void => {
     leftHome.current = true;
@@ -792,6 +793,28 @@ export function MoAppSidebar(): React.JSX.Element {
       })
       .catch((error: unknown) => setFolderError(error instanceof Error ? error.message : "Could not open the file."));
   };
+
+  // The address bar shows the open project (?project=Name), so a link opens that project; the Open page clears it.
+  const currentName = current?.name ?? null;
+  React.useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      if (view === "project" && currentName) url.searchParams.set("project", currentName);
+      else if (!deepLinkPending.current) url.searchParams.delete("project");
+      else return;
+      window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+    } catch {
+      // A blocked history API just leaves the address as it is.
+    }
+  }, [view, currentName]);
+  // A link with ?project=Name opens that project once, when the page loads.
+  React.useEffect(() => {
+    if (!deepLinkPending.current) return;
+    const name = new URLSearchParams(window.location.search).get("project");
+    deepLinkPending.current = false;
+    if (name) openSavedProject(`${name.replace(/\.json$/i, "")}.json`, "recovered");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const browseProjectFile = (): void => {
     pickMoProjectFile()
