@@ -43,3 +43,7 @@ Thumbs.db
 
 # Packed project files built by scripts/build-animation.mjs
 animations-dist
+.env*
+
+# Published copies of ../Projects (made by scripts/publish-projects.mjs)
+public/projects

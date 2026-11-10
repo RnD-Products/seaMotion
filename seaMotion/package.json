@@ -8,7 +8,7 @@
     "ai:check": "node scripts/check-toolcraft-code-health.mjs",
     "dev": "node scripts/dev-with-autosave.mjs dev",
     "dev:restart": "node scripts/dev-with-autosave.mjs dev --toolcraft-restart",
-    "build": "tsc -p tsconfig.json --noEmit && vite build",
+    "build": "node scripts/publish-projects.mjs && tsc -p tsconfig.json --noEmit && vite build",
     "preview": "node scripts/dev-with-autosave.mjs preview",
     "preview:restart": "node scripts/dev-with-autosave.mjs preview --toolcraft-restart",
     "reference:study": "node scripts/create-toolcraft-motion-reference-study.mjs",
