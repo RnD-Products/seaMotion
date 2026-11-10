@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Local helper for Mo_App: the app posts the open project here every few seconds and it
+// Local helper for seaMotion: the app posts the open project here every few seconds and it
 // is written as a .json file in one folder, so work is kept even when nothing was exported.
 // It listens on 127.0.0.1 only and accepts requests only from pages served from localhost.
 import { copyFile, mkdir, readFile, readdir, rename, stat, unlink, writeFile } from "node:fs/promises";
@@ -14,9 +14,9 @@ import { promisify } from "node:util";
 const PORT = Number(process.env.PROJECT_AUTOSAVE_PORT ?? 3011);
 const APP_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 // Where projects are saved: the folder chosen in the app (kept in ~/.mo-app/settings.json), else the
-// PROJECT_AUTOSAVE_DIR setting, else ~/Documents/Mo_App/Recovered.
+// PROJECT_AUTOSAVE_DIR setting, else ~/Documents/seaMotion/Recovered.
 const SETTINGS_FILE = path.join(os.homedir(), ".mo-app", "settings.json");
-const DEFAULT_DIR = path.join(os.homedir(), "Documents", "Mo_App", "Recovered");
+const DEFAULT_DIR = path.join(os.homedir(), "Documents", "seaMotion", "Recovered");
 function readSavedDir() {
   try {
     const saved = JSON.parse(readFileSync(SETTINGS_FILE, "utf8")).projectDir;
@@ -147,7 +147,7 @@ async function readAgentFile(name) {
 
 // The app's saved fonts: font files you added for a design whose font was missing, kept for every project, so a
 // design that needs the same font later gets it without asking again. An index lists each file's family and style.
-const FONTS_DIR = path.resolve(process.env.MO_APP_FONTS_DIR ?? path.join(os.homedir(), "Documents", "Mo_App", "Fonts"));
+const FONTS_DIR = path.resolve(process.env.MO_APP_FONTS_DIR ?? path.join(os.homedir(), "Documents", "seaMotion", "Fonts"));
 const FONTS_INDEX = path.join(FONTS_DIR, "fonts.json");
 const FONT_TYPES = { otf: "font/otf", ttf: "font/ttf", woff: "font/woff", woff2: "font/woff2" };
 async function readFontIndex() {
@@ -230,8 +230,8 @@ function readBody(req) {
 }
 
 // Presets (the sticky settings, and others later) are kept for every project in one folder next to the projects and the fonts:
-// ~/Documents/Mo_App/Presets/<kind>/<name>.json, each file { name, values }.
-const PRESETS_DIR = path.resolve(process.env.MO_APP_PRESETS_DIR ?? path.join(os.homedir(), "Documents", "Mo_App", "Presets"));
+// ~/Documents/seaMotion/Presets/<kind>/<name>.json, each file { name, values }.
+const PRESETS_DIR = path.resolve(process.env.MO_APP_PRESETS_DIR ?? path.join(os.homedir(), "Documents", "seaMotion", "Presets"));
 const PRESET_KINDS = new Set(["sticky"]);
 function presetDir(kind) {
   const clean = String(kind ?? "");
@@ -412,7 +412,7 @@ const server = http.createServer((req, res) => {
     // The default location must exist, so walk up from the save folder to the nearest folder that does.
     let start = DIR;
     while (start !== path.dirname(start) && !existsSync(start)) start = path.dirname(start);
-    const script = 'POSIX path of (choose folder with prompt "Choose where Mo_App saves projects" default location (POSIX file ' + JSON.stringify(start) + "))";
+    const script = 'POSIX path of (choose folder with prompt "Choose where seaMotion saves projects" default location (POSIX file ' + JSON.stringify(start) + "))";
     runProcess("osascript", ["-e", script], { timeout: 300_000 }).then(
       ({ stdout }) => send(res, 200, { path: stdout.trim().replace(/\/$/, "") }, origin),
       (error) => {

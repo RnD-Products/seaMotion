@@ -90,7 +90,7 @@ export async function chooseProjectAutosaveDir(): Promise<string | null> {
   return typeof body.path === "string" && body.path ? body.path : null;
 }
 
-// "/Users/me/Documents/Mo_App/Recovered" -> "~/Documents/Mo_App/Recovered".
+// "/Users/me/Documents/seaMotion/Recovered" -> "~/Documents/seaMotion/Recovered".
 export function shortenPath(path: string): string {
   return path.replace(/^\/Users\/[^/]+/, "~");
 }

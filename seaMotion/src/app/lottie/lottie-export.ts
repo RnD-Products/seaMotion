@@ -78,7 +78,7 @@ function download(blob: Blob, fileName: string): void {
 export function toDotLottie(data: Record<string, unknown>, id: string): Uint8Array {
   const manifest = {
     animations: [{ autoplay: true, id, loop: true, speed: 1 }],
-    generator: "Mo_App",
+    generator: "seaMotion",
     version: "1",
   };
   return zipSync({

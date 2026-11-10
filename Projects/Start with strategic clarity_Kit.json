@@ -2526,14 +2526,14 @@
       "width": 710
     }
   },
-  "exportedAt": "2026-10-21T11:57:33.820Z",
+  "exportedAt": "2026-10-15T12:57:05.021Z",
   "format": "mo-app-project",
   "layers": [
     {
       "id": "fg-1",
       "name": "Start with strategic clarity_Kit",
       "visible": true,
-      "collapsed": false,
+      "collapsed": true,
       "displayName": "Start with strategic clarity_Kit",
       "kind": "group"
     },
@@ -2541,7 +2541,7 @@
       "id": "fg-2",
       "name": "Content",
       "visible": true,
-      "collapsed": false,
+      "collapsed": true,
       "displayName": "Content",
       "kind": "group",
       "parentGroupId": "fg-1"
@@ -2829,7 +2829,7 @@
       "id": "fg-11",
       "name": "AI",
       "visible": true,
-      "collapsed": false,
+      "collapsed": true,
       "displayName": "AI",
       "kind": "group",
       "parentGroupId": "fg-2"
@@ -2838,7 +2838,7 @@
       "id": "fg-46",
       "name": "Frame",
       "visible": true,
-      "collapsed": false,
+      "collapsed": true,
       "displayName": "Frame",
       "kind": "group",
       "parentGroupId": "fg-11"
@@ -2941,12 +2941,7 @@
     }
   ],
   "name": "Start with strategic clarity_Kit",
-  "params": {
-    "plan": {
-      "animations": [],
-      "segments": []
-    }
-  },
+  "params": {},
   "projectId": "pmv9h8eb01tn1zy",
   "timeline": {
     "durationSeconds": 8
@@ -3059,7 +3054,7 @@
     "sound.musicFadeOut": 0,
     "modifier.layer": {},
     "modifier.layerImages": {},
-    "modifier.layerActive": false,
+    "modifier.layerActive": true,
     "modifier.layerFiles": false,
     "animation.texts": {},
     "modifier.layerHasText": false,
@@ -3067,7 +3062,6 @@
     "layer.perspective": {},
     "artboard.name": "Start with strategic clarity_Kit",
     "artboard.size": {},
-    "artboard.fonts": {},
     "bg.mode": "fill",
     "bg.fillType": "solid",
     "bg.fillTo": "#FFFFFF",

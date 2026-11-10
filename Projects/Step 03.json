@@ -234,7 +234,7 @@
       "width": 620
     }
   },
-  "exportedAt": "2026-10-21T11:53:08.596Z",
+  "exportedAt": "2026-10-15T11:29:29.945Z",
   "format": "mo-app-project",
   "layers": [
     {
@@ -311,11 +311,7 @@
     "lines.width": 1.2,
     "photos.size": 1,
     "ring.from": "#194DCC",
-    "ring.to": "#3ED6B5",
-    "plan": {
-      "animations": [],
-      "segments": []
-    }
+    "ring.to": "#3ED6B5"
   },
   "projectId": "pmv3glp4ofpcd6r",
   "timeline": {
@@ -457,7 +453,7 @@
     "sound.musicFadeOut": 0,
     "modifier.layer": {},
     "modifier.layerImages": {},
-    "modifier.layerActive": true,
+    "modifier.layerActive": false,
     "modifier.layerFiles": false,
     "animation.texts": {},
     "modifier.layerHasText": false,
@@ -465,7 +461,6 @@
     "layer.perspective": {},
     "artboard.name": "Artboard",
     "artboard.size": {},
-    "artboard.fonts": {},
     "bg.mode": "fill",
     "bg.fillType": "solid",
     "bg.fillTo": "#FFFFFF",

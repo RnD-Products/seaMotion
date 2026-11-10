@@ -380,11 +380,10 @@ export function MoAppSidebar(): React.JSX.Element {
     [dispatch],
   );
 
-  // The browser tab shows the open project's name.
-  const projectName = current?.name;
+  // The browser tab always shows the app name.
   React.useEffect(() => {
-    document.title = projectName ?? "Mo_App";
-  }, [projectName]);
+    document.title = "seaMotion";
+  }, []);
 
   // The runtime places its own Layers panel top-left; the sidebar shows Layers as a tab instead.
   React.useEffect(() => {
@@ -1077,7 +1076,7 @@ export function MoAppSidebar(): React.JSX.Element {
             onKeyDown={(event) => {
               if (event.key === "Enter") event.currentTarget.blur();
             }}
-            placeholder="/Users/you/Documents/Mo_App/Recovered"
+            placeholder="/Users/you/Documents/seaMotion/Recovered"
             value={folderMenu.path}
           />
           <div className={styles.folderButtons}>

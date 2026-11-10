@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// For agents working on the open Mo_App project (see docs/mo-app/agent-motion-guide.md, "Agent channel").
+// For agents working on the open seaMotion project (see docs/mo-app/agent-motion-guide.md, "Agent channel").
 //   node scripts/mo-agent.mjs status "<project name>" <percent> "<what you are doing>"
 //   node scripts/mo-agent.mjs apply <update.json>      the new animation / settings; the app applies it in place and
 //                                                     saves it as a new version ("version" in the file, else v_NN)

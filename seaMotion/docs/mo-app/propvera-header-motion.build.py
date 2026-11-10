@@ -1,7 +1,7 @@
 import collections, json, re, subprocess, sys
 
 HERE = "/private/tmp/claude-501/-Users-seativedigital-Documents-Mo-App-Mo-App-v-01/1c2b27be-6559-4c40-8c8b-9c747e1394cf/scratchpad/pv"
-SRC = "/Users/seativedigital/Documents/Mo_App/Recovered/PropVera_Header.json"
+SRC = "/Users/seativedigital/Documents/seaMotion/Recovered/PropVera_Header.json"
 d = json.load(open(SRC))
 a = d["animation"]
 lay = d["layers"]

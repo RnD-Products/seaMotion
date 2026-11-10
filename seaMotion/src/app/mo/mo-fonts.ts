@@ -2,7 +2,7 @@ import type { AnimationSpec } from "../animation/animation-spec";
 import { getProbeSandbox } from "../animation/layer-texts";
 import { designFonts, fontKey, isItalicStyle, weightOfStyle, withMissingFonts, type FigmaFont } from "./figma-paste-import";
 
-// The app's saved fonts live in a folder next to the projects (~/Documents/Mo_App/Fonts), kept by the auto-save
+// The app's saved fonts live in a folder next to the projects (~/Documents/seaMotion/Fonts), kept by the auto-save
 // helper. A design that needs one of them gets it automatically; a font added for one design is there for all.
 const AUTOSAVE_URL = "http://127.0.0.1:3011";
 
